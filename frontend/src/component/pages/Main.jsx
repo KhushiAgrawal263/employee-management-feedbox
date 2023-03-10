@@ -6,6 +6,9 @@ import axios from "axios";
 import Sidebar from "../Sidebar";
 import NavBar from "../NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FaInstagram} from 'react-icons/fa';
+import {IoLogoLinkedin} from 'react-icons/io';
+import {AiFillTwitterSquare} from 'react-icons/ai';
 import {
   faCircleInfo,
   faEdit,
@@ -15,6 +18,7 @@ import {
 const Main = () => {
   const [data, setData] = useState();
   const [edit, setEdit] = useState(false);
+  const [socialEdit, setSocialEdit] = useState(false);
   const [edited, setEdited] = useState(false);
   const [email, setEmail] = useState(data && data.email);
   const [dob, setDob] = useState();
@@ -24,6 +28,9 @@ const Main = () => {
   const [gender, setGender] = useState();
   const [marital, setMarital] = useState();
   const [blood, setBlood] = useState();
+  const [insta, setInsta] = useState();
+  const [linked, setLinked] = useState();
+  const [twit, setTwit] = useState();
 
   const u = "http://localhost:8000";
   const user = JSON.parse(localStorage.getItem("EMSuser"));
@@ -75,6 +82,10 @@ const Main = () => {
     setEdit(true);
   };
 
+  const EditSocialHandler = () => {
+    setSocialEdit(true);
+  };
+
   const emailHandler = (e) => {
     setEmail(e.target.value);
   };
@@ -111,6 +122,7 @@ const Main = () => {
   // update data
   const PersonalSubmitHandler = async () => {
     setEdit(false);
+    setSocialEdit(false);
     console.log(gender);
     const val = {
       email: email,
@@ -388,15 +400,85 @@ const Main = () => {
               </div>
 
               <div className="card ">
-                <div className="cardHeading">Projects : </div>
+                <div className="cardHeading personal">Projects : 
+                <button onClick={EditSocialHandler}>
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                </div>
+
                 <div className="cradElemet">
+
+                    {socialEdit === true ? (
+                    <div>        
+                      <div className="cardDetails">
+                        <div className="cardQA">
+                          <img className="insta" src="Image/insta.png" alt=""/>
+                          </div>
+                        <div className="cardA">
+                          <input
+                            type="text"
+                            value={insta}
+                            onChange={contactHandler}
+                            placeholder="Enter Instagram Profile"
+                          />
+                        </div>
+                      </div>
+                      <div className="cardDetails">
+                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35"/></div>
+                        <div className="cardA">
+                          <input
+                            type="text"
+                            value={linked}
+                            onChange={aadharHandler}
+                            placeholder="Enter Linkedin Profile"
+                          />
+                        </div>
+                      </div>
+                      <div className="cardDetails">
+                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35"/></div>
+                        <div className="cardA">
+                          <input
+                            type="text"
+                            value={twit}
+                            onChange={genderHandler}
+                            placeholder="Enter Twitter Profile"
+                          />
+                        </div>
+                      </div>
+                     
+                      <button onClick={PersonalSubmitHandler}>Save</button>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="cardDetails">
+                        <div className="cardQA"><img className="insta" src="Image/insta.png" alt=""/>
+                          {/* <FaInstagram className="insta" size="25" /> */}
+                          </div>{" "}
+                        <div className="cardA">: {data && data.email}</div>
+                      </div>
+                      <div className="cardDetails">
+                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35"/></div>{" "}
+                        <div className="cardA">: {data && data.dob}</div>
+                      </div>
+                      <div className="cardDetails">
+                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35"/></div>{" "}
+                        <div className="cardA">: {data && data.address}</div>
+                      </div>
+                    
+                    </div>
+                  )}
+                </div>
+
+                {/* <div className="cradElemet">
                   {data &&
                     data.taskCompleted.map((task) => (
                       <div className="cardDetails" key={task._id}>
                         <div className="cardQ">{task.task}</div>
                       </div>
                     ))}
-                </div>
+                </div> */}
+
+
               </div>
 
             </div>
