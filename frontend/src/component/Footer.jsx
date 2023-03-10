@@ -1,6 +1,8 @@
 import React from 'react'
 import './Footer.css'
 
+
+// just a test comment
 const Footer = () => {
   return (
     <div className='footer'>
