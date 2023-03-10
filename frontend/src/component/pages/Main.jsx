@@ -117,12 +117,19 @@ const Main = () => {
   const bloodHandler = (e) => {
     setBlood(e.target.value);
   };
+  const instaHandler=(e)=>{
+    setInsta(e.target.value)
+  }
+  const linkedinHandler=(e)=>{
+    setLinked(e.target.value)
+  }
+  const twitterHandler=(e)=>{
+    setTwit(e.target.value)
+  }
   
-
   // update data
   const PersonalSubmitHandler = async () => {
     setEdit(false);
-    setSocialEdit(false);
     console.log(gender);
     const val = {
       email: email,
@@ -145,9 +152,26 @@ const Main = () => {
     });
     const data = await res.json();
     setEdited(true);
-    //   alert("Data Updated successfully");
-    //   window.location.href='/home'
   };
+
+  const socialSubmitHandler=async ()=>{
+    setSocialEdit(false);
+    const val = {
+      instaId:insta,
+      linkedinId:linked,
+      twitterId:twit
+    };
+    const res = await fetch(userURL, {
+      method: "PUT",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(val),
+    });
+    const data = await res.json();
+    setEdited(true);
+  }
 
   return (
     <>
@@ -197,7 +221,6 @@ const Main = () => {
             <div className="main-card">
             <div className="card ">
                 <div className="cardHeading personal">
-                  {" "}
                   Personal Details :
                   <button onClick={EditHandler}>
                     <FontAwesomeIcon icon={faEdit} />
@@ -418,7 +441,7 @@ const Main = () => {
                           <input
                             type="text"
                             value={insta}
-                            onChange={contactHandler}
+                            onChange={instaHandler}
                             placeholder="Enter Instagram Profile"
                           />
                         </div>
@@ -429,7 +452,7 @@ const Main = () => {
                           <input
                             type="text"
                             value={linked}
-                            onChange={aadharHandler}
+                            onChange={linkedinHandler}
                             placeholder="Enter Linkedin Profile"
                           />
                         </div>
@@ -440,13 +463,13 @@ const Main = () => {
                           <input
                             type="text"
                             value={twit}
-                            onChange={genderHandler}
+                            onChange={twitterHandler}
                             placeholder="Enter Twitter Profile"
                           />
                         </div>
                       </div>
                      
-                      <button onClick={PersonalSubmitHandler}>Save</button>
+                      <button onClick={socialSubmitHandler}>Save</button>
                     </div>
                   ) : (
                     <div>
@@ -454,15 +477,15 @@ const Main = () => {
                         <div className="cardQA"><img className="insta" src="Image/insta.png" alt=""/>
                           {/* <FaInstagram className="insta" size="25" /> */}
                           </div>{" "}
-                        <div className="cardA">: {data && data.email}</div>
+                        <div className="cardA">: {data && data.instaId}</div>
                       </div>
                       <div className="cardDetails">
                         <div className="cardQA"><IoLogoLinkedin className="linked" size="35"/></div>{" "}
-                        <div className="cardA">: {data && data.dob}</div>
+                        <div className="cardA">: {data && data.linkedinId}</div>
                       </div>
                       <div className="cardDetails">
                         <div className="cardQA"><AiFillTwitterSquare className="twit" size="35"/></div>{" "}
-                        <div className="cardA">: {data && data.address}</div>
+                        <div className="cardA">: {data && data.twitterId}</div>
                       </div>
                     
                     </div>

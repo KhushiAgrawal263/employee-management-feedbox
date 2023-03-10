@@ -145,6 +145,7 @@
     color: #ebebfc;
 }
 
+<<<<<<< HEAD
 .approve-btn-disabled{
     padding: 8px;
     border-radius: 5px;
@@ -152,4 +153,34 @@
     border: 2px solid #15074e;
     transition: all 0.2s ease-in-out;
     font-weight: 500;
+=======
+.modal-body{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap:5px;
+    margin-bottom: 20px;
+}
+
+.reject-input{
+   padding:7px;
+   width:370px;
+   border:1px solid #15074e;
+}
+
+.reject-btn{
+    padding: 7px;
+    border-radius: 5px;
+    color: white;
+    border: 2px solid #15074e;
+    background-color: #15074e;
+    /* transition: all 0.2s ease-in-out; */
+    font-weight: 500;
+}
+
+.reject-btn:hover {
+    border:1px solid #15074e;
+    color: #15074e;
+    background-color: white;
+>>>>>>> f91ad94685eff68fa3e1102012e9b90a5fc8a812
 }

@@ -7,13 +7,22 @@ import PSPDFKit from "pspdfkit";
 import { SpecialZoomLevel, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import './AdminDoc.css'
+import Modal from "react-bootstrap/Modal";
 
 const DocumentDetails = () => {
     const location = useLocation()
     const user = location.state.user;
+<<<<<<< HEAD
     const [documents, setDocuments] = useState()
 
     const [data, setData] = useState();
+=======
+    // console.log(user);
+    // const documents = user.documents;
+    const [documents,setDocuments] = useState()
+    const [show, setShow] = useState(false);
+    const [data,setData] = useState();
+>>>>>>> f91ad94685eff68fa3e1102012e9b90a5fc8a812
     const [displayRL, setDisplayRL] = useState();
     const [displayAC, setDisplayAC] = useState();
     const [displayPC, setDisplayPC] = useState();
@@ -21,9 +30,14 @@ const DocumentDetails = () => {
     const [displaySSM, setDisplaySSM] = useState();
     const [displaySM, setDisplaySM] = useState();
     const [displayResume, setDisplayResume] = useState();
+<<<<<<< HEAD
     const [btnValue, setBtnValue] = useState('Approve All');
     const [rejectionMessage,setRejectionMessage]=useState();
 
+=======
+    const [btnValue,setBtnValue]  = useState('Approve All');
+    const[reject,setReject]=useState("");
+>>>>>>> f91ad94685eff68fa3e1102012e9b90a5fc8a812
     const userURL = 'http://localhost:8000'
     useEffect(() => {
         const fetchurl = async () => {
@@ -96,6 +110,7 @@ const DocumentDetails = () => {
         console.log(Notifi);
         window.location.href='/documentDetails'
     }
+<<<<<<< HEAD
 
     const handleApprove = (e, value, name, type) => {
         if (value == 'verifyRL' || value == 'cancelRL') {
@@ -119,6 +134,35 @@ const DocumentDetails = () => {
         } else if (value == 'verifyResume' || value == 'cancelResume') {
             updateStatus(name, type);
             setDisplayResume(value);
+=======
+      
+    const handleApprove=(e,value,name,type)=>{
+        // if(value=='verifyRL' || value=='cancelRL'){
+        //     updateStatus(name,type);
+        //     setDisplayRL(value);
+        // }else if(value=='verifyAC' || value=='cancelAC'){
+        //     updateStatus(name,type);
+        //     setDisplayAC(value);
+        // }else if(value=='verifyPC' || value=='cancelPC'){
+        //     updateStatus(name,type);
+        //     setDisplayPC(value);
+        // }else if(value=='verifyGM' || value=='cancelGM'){
+        //     updateStatus(name,type);
+        //     setDisplayGM(value);
+        // }else if(value=='verifySSM' || value=='cancelSSM'){
+        //     updateStatus(name,type);
+        //     setDisplaySSM(value);
+        // }else if(value=='verifySM' || value=='cancelSM'){
+        //     updateStatus(name,type);
+        //     setDisplaySM(value);
+        // }else if(value=='verifyResume' || value=='cancelResume'){
+        //     updateStatus(name,type);
+        //     setDisplayResume(value);
+        // }
+        if(type==='rejected')
+        {
+            setShow(true);
+>>>>>>> f91ad94685eff68fa3e1102012e9b90a5fc8a812
         }
     }
 
@@ -180,12 +224,23 @@ const DocumentDetails = () => {
         window.URL.revokeObjectURL(url);
     }
 
+<<<<<<< HEAD
     return (
         <>
             <Sidebar />
             <NavBar />
             <div className='documentDetails'>
                 <div className='documentDetailsBg'>
+=======
+    const handleClose = () => setShow(false);
+
+  return (
+    <>
+        <Sidebar />
+        <NavBar />
+        <div className='documentDetails'>
+        <div className='documentDetailsBg'>
+>>>>>>> f91ad94685eff68fa3e1102012e9b90a5fc8a812
 
                     <h3>Document details about <span>{user.name}</span> </h3>
                     <h6>{user.empId}, {user.designation}</h6>
@@ -366,9 +421,44 @@ const DocumentDetails = () => {
 
                     </>}
                 </div>
+<<<<<<< HEAD
             </div>
         </>
     )
+=======
+                
+                <div className='approveAllBtn'>
+                {
+                    data.docStatus=='pending' ? (documents.relievingLetter=='approved' && documents.aadharCard=='approved' && documents.panCard=='approved' && documents.graduate=='approved' && documents.twelth=='approved' && documents.tenth=='approved' && documents.resume=='approved') ?
+                    <button className=' approve-btn' onClick={approveAllDocument}>{btnValue}</button> :
+                    <button className=' approve-btn' disabled>Approve all</button>
+                    :
+                    <button className=' approve-btn' disabled>Approved</button>
+                }
+                </div>
+                
+                </>}
+
+            
+        <Modal
+        show={show}
+        onHide={handleClose}
+        className="profile-section-overall"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Rejection Message!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body">
+           <input type="text" className="reject-input" placeholder="Enter message" value={reject} onChange={(e)=>setReject(e.target.value)}/>
+           <button className=' reject-btn'>Send</button>
+        </Modal.Body>
+        
+      </Modal>
+        </div>
+        </div>
+    </>
+  )
+>>>>>>> f91ad94685eff68fa3e1102012e9b90a5fc8a812
 }
 
 export default DocumentDetails
