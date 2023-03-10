@@ -144,3 +144,12 @@
     background-color: #15074e;
     color: #ebebfc;
 }
+
+.approve-btn-disabled{
+    padding: 8px;
+    border-radius: 5px;
+    color: #15074e;
+    border: 2px solid #15074e;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+}

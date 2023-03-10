@@ -73,18 +73,23 @@ const userSchema = mongoose.Schema(
                 role:{type:String},
                 status:{type:String},
                 holidayDate:{type:String},
-                id:{type:String}
+                id:{type:String},
+                rejectionMessage:{type:String}
             }
         ],
         docLastModified:{type:Date},
         leaveLastModified:{type:Date},
+        instaId:{type:String},
+        twitterId:{type:String},
+        linkedinId:{type:String},
         documents:{
             relievingLetter:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             aadharCard:{
                 data: Buffer, 
