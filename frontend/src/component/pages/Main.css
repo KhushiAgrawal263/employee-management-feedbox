@@ -152,6 +152,13 @@
     width: 40%;
 }
 
+.cardQA {
+    padding-bottom: 8px;
+    font-weight : 700;
+    font-size : 1.1rem;
+    width: 8%;
+}
+
 .cardA {
     font-size : 1.1rem;
 }
@@ -162,6 +169,30 @@
     padding-left: 5px;
 }
 
+.all-profile{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.insta{
+    height:26px;
+    width:26px;
+    position: relative;
+    left:4px;
+}
+.social-i{
+    height:40px;
+    width:40px;
+    object-fit: inherit;
+}
+
+.linked{
+    color: #0e76a8;
+}
+
+.twit{
+    color: #00acee;
+}
 
 @keyframes cards{
     from {left : -1000px;}
