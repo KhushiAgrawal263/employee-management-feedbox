@@ -7,6 +7,7 @@ import PSPDFKit from "pspdfkit";
 import { SpecialZoomLevel, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import './AdminDoc.css'
+import Modal from "react-bootstrap/Modal";
 
 const DocumentDetails = () => {
     const location = useLocation()
@@ -14,7 +15,7 @@ const DocumentDetails = () => {
     // console.log(user);
     // const documents = user.documents;
     const [documents,setDocuments] = useState()
-
+    const [show, setShow] = useState(false);
     const [data,setData] = useState();
     const [displayRL, setDisplayRL] = useState();
     const [displayAC, setDisplayAC] = useState();
@@ -24,7 +25,7 @@ const DocumentDetails = () => {
     const [displaySM, setDisplaySM] = useState();
     const [displayResume, setDisplayResume] = useState();
     const [btnValue,setBtnValue]  = useState('Approve All');
-
+    const[reject,setReject]=useState("");
     const userURL = 'http://localhost:8000'
     useEffect(() => {
         const fetchurl= async ()=>{
@@ -84,27 +85,31 @@ const DocumentDetails = () => {
     }
       
     const handleApprove=(e,value,name,type)=>{
-        if(value=='verifyRL' || value=='cancelRL'){
-            updateStatus(name,type);
-            setDisplayRL(value);
-        }else if(value=='verifyAC' || value=='cancelAC'){
-            updateStatus(name,type);
-            setDisplayAC(value);
-        }else if(value=='verifyPC' || value=='cancelPC'){
-            updateStatus(name,type);
-            setDisplayPC(value);
-        }else if(value=='verifyGM' || value=='cancelGM'){
-            updateStatus(name,type);
-            setDisplayGM(value);
-        }else if(value=='verifySSM' || value=='cancelSSM'){
-            updateStatus(name,type);
-            setDisplaySSM(value);
-        }else if(value=='verifySM' || value=='cancelSM'){
-            updateStatus(name,type);
-            setDisplaySM(value);
-        }else if(value=='verifyResume' || value=='cancelResume'){
-            updateStatus(name,type);
-            setDisplayResume(value);
+        // if(value=='verifyRL' || value=='cancelRL'){
+        //     updateStatus(name,type);
+        //     setDisplayRL(value);
+        // }else if(value=='verifyAC' || value=='cancelAC'){
+        //     updateStatus(name,type);
+        //     setDisplayAC(value);
+        // }else if(value=='verifyPC' || value=='cancelPC'){
+        //     updateStatus(name,type);
+        //     setDisplayPC(value);
+        // }else if(value=='verifyGM' || value=='cancelGM'){
+        //     updateStatus(name,type);
+        //     setDisplayGM(value);
+        // }else if(value=='verifySSM' || value=='cancelSSM'){
+        //     updateStatus(name,type);
+        //     setDisplaySSM(value);
+        // }else if(value=='verifySM' || value=='cancelSM'){
+        //     updateStatus(name,type);
+        //     setDisplaySM(value);
+        // }else if(value=='verifyResume' || value=='cancelResume'){
+        //     updateStatus(name,type);
+        //     setDisplayResume(value);
+        // }
+        if(type==='rejected')
+        {
+            setShow(true);
         }
     }
 
@@ -165,6 +170,8 @@ const DocumentDetails = () => {
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
     }
+
+    const handleClose = () => setShow(false);
 
   return (
     <>
@@ -349,6 +356,22 @@ const DocumentDetails = () => {
                 </div>
                 
                 </>}
+
+            
+        <Modal
+        show={show}
+        onHide={handleClose}
+        className="profile-section-overall"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Rejection Message!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal-body">
+           <input type="text" className="reject-input" placeholder="Enter message" value={reject} onChange={(e)=>setReject(e.target.value)}/>
+           <button className=' reject-btn'>Send</button>
+        </Modal.Body>
+        
+      </Modal>
         </div>
         </div>
     </>
