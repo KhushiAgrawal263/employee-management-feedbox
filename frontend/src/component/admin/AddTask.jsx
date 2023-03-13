@@ -7,8 +7,12 @@ import "./EmployeeDetail.css";
 const AddTask = ({ props }) => {
   const todos = props.task;
   const id = props.id;
-  console.log(props);
   const [value, setValue] = useState("");
+  const [reload, setReload] = useState(false);
+
+  useEffect(() => {
+    setReload(false);
+  }, [reload])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +28,8 @@ const AddTask = ({ props }) => {
       });
       const res = await data.json();
       alert(JSON.stringify(res.message));
+      setReload(true);
+
       window.location.href = "EmployeeDetails";
     } catch (error) {
       console.log(error);

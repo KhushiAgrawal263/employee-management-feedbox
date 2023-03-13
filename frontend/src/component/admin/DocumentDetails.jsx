@@ -210,26 +210,39 @@ const DocumentDetails = () => {
         setBtnValue('Approved')
     }
 
+    const b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: contentType });
+        return blob;
+    }
+
     const fileHandler = async (name) => {
         const doc = await fetch(`http://localhost:8000/documents/${user._id}/${name}`);
         const data = await doc.json();
-        console.log(data[0].documents, "lkjhjgygf");
-        const bytes = new Uint8Array(data[0].documents.data);
-        const len = bytes.byteLength;
-        let binary;
-        for (let i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        const files = window.btoa(binary);
-        const filename = data[0].documents.fileName;
-        const url = `data:application/pdf;base64,` + files;
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
+        console.log(data[0].documents.data);
+
+        const blob = b64toBlob(data[0].documents.data, "application/pdf");
+        const fileURL = window.URL.createObjectURL(blob);
+        // Setting various property values
+        // let alink = document.createElement('a');
+        // alink.href = fileURL;
+        // alink.download = data[0].documents.fileName;
+        // alink.click();
+        window.open(fileURL)
     }
 
     const handleClose = () => setShow(false);
@@ -277,8 +290,6 @@ const DocumentDetails = () => {
                                 </div>
                             </div>
                         }
-                        {/* </div> */}
-
                         <div className='documentCard'>
                             <div className='docVeri'>Aadhar Card</div>
                             <div className='pdf' onClick={() => fileHandler("aadharCard")}> <img src="Image/pdf.png" alt="" />Download </div>
@@ -317,11 +328,11 @@ const DocumentDetails = () => {
                             <div className='pdf' onClick={() => fileHandler("panCard")}> <img src="Image/pdf.png" alt="" /> Download</div>
                             <div className='docButton'>
                                 {
-                                    documents.panCard && !pcLoading &&  documents.panCard == 'uploaded' &&
-                                        <>
-                                            <button className={displayPC == 'cancelPC' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyPC', 'panCard', 'rejected')}> Decline </button>
-                                            <button className={displayPC == 'verifyPC' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelPC', 'panCard', 'approved')}> Approve </button>
-                                        </>
+                                    documents.panCard && !pcLoading && documents.panCard == 'uploaded' &&
+                                    <>
+                                        <button className={displayPC == 'cancelPC' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyPC', 'panCard', 'rejected')}> Decline </button>
+                                        <button className={displayPC == 'verifyPC' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelPC', 'panCard', 'approved')}> Approve </button>
+                                    </>
                                 }
                                 {
                                     !documents.panCard && '-'
@@ -345,14 +356,14 @@ const DocumentDetails = () => {
 
                         <div className='documentCard'>
                             <div className='docVeri'> Graduation Marksheet</div>
-                            <div className='pdf' onClick={() => fileHandler("graduate")} > <img src="Image/pdf.png" alt=""/>Download </div>
+                            <div className='pdf' onClick={() => fileHandler("graduate")} > <img src="Image/pdf.png" alt="" />Download </div>
                             <div className='docButton'>
                                 {
                                     documents.graduate && !gmLoading && documents.graduate == 'uploaded' &&
-                                        <>
-                                            <button className={displayGM == 'cancelGM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyGM', 'graduate', 'rejected')} > Decline </button>
-                                            <button className={displayGM == 'verifyGM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelGM', 'graduate', 'approved')}> Approve </button>
-                                        </> 
+                                    <>
+                                        <button className={displayGM == 'cancelGM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyGM', 'graduate', 'rejected')} > Decline </button>
+                                        <button className={displayGM == 'verifyGM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelGM', 'graduate', 'approved')}> Approve </button>
+                                    </>
                                 }
                                 {
                                     !documents.graduate && '-'
@@ -380,10 +391,10 @@ const DocumentDetails = () => {
                             <div className='docButton'>
                                 {
                                     documents.twelth && !twelthLoading && documents.twelth == 'uploaded' &&
-                                        <>
-                                            <button className={displaySSM == 'cancelSSM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifySSM', 'twelth', 'rejected')}> Decline </button>
-                                            <button className={displaySSM == 'verifySSM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelSSM', 'twelth', 'approved')}> Approve </button>
-                                        </> 
+                                    <>
+                                        <button className={displaySSM == 'cancelSSM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifySSM', 'twelth', 'rejected')}> Decline </button>
+                                        <button className={displaySSM == 'verifySSM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelSSM', 'twelth', 'approved')}> Approve </button>
+                                    </>
                                 }
                                 {
                                     !documents.twelth && '-'
@@ -410,11 +421,11 @@ const DocumentDetails = () => {
                             <div className='pdf' onClick={() => fileHandler("tenth")}> <img src="Image/pdf.png" alt="" /> Download</div>
                             <div className='docButton'>
                                 {
-                                    documents.tenth && !tenthLoading &&  documents.tenth == 'uploaded' &&
-                                        <>
-                                            <button className={displaySM == 'cancelSM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifySM', 'tenth', 'rejected')}> Decline </button>
-                                            <button className={displaySM == 'verifySM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelSM', 'tenth', 'approved')} > Approve </button>
-                                        </> 
+                                    documents.tenth && !tenthLoading && documents.tenth == 'uploaded' &&
+                                    <>
+                                        <button className={displaySM == 'cancelSM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifySM', 'tenth', 'rejected')}> Decline </button>
+                                        <button className={displaySM == 'verifySM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelSM', 'tenth', 'approved')} > Approve </button>
+                                    </>
                                 }
                                 {
                                     !documents.tenth && '-'
@@ -443,10 +454,10 @@ const DocumentDetails = () => {
                             <div className='docButton'>
                                 {
                                     documents.resume && !resumeLoading && documents.resume == 'uploaded' &&
-                                        <>
-                                            <button className={displayResume == 'cancelResume' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyResume', 'resume', 'rejected')}> Decline </button>
-                                            <button className={displayResume == 'verifyResume' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelResume', 'resume', 'approved')}> Approve </button>
-                                        </> 
+                                    <>
+                                        <button className={displayResume == 'cancelResume' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyResume', 'resume', 'rejected')}> Decline </button>
+                                        <button className={displayResume == 'verifyResume' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelResume', 'resume', 'approved')}> Approve </button>
+                                    </>
                                 }
                                 {
                                     !documents.resume && '-'
