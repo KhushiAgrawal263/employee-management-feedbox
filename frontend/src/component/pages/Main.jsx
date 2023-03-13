@@ -129,6 +129,14 @@ const Main = () => {
   const twitterHandler = (e) => {
     setTwit(e.target.value)
   }
+  
+  const PersonalCancelHandler = async () => {
+    setEdit(false);
+  }
+
+  const PersonalCancelSocialHandler = async () => {
+    setSocialEdit(false);
+  }
 
   // update data
   const PersonalSubmitHandler = async () => {
@@ -327,7 +335,10 @@ const Main = () => {
                           />
                         </div>
                       </div>
+                      <div className="after-edit">
                       <button onClick={PersonalSubmitHandler}>Save</button>
+                      <button onClick={PersonalCancelHandler}>Cancel</button>
+                      </div>
                     </div>
                   ) : (
                     <div>
@@ -480,6 +491,12 @@ const Main = () => {
                         <button onClick={socialSubmitHandler}>Save</button>
                         <button onClick={() => setSocialEdit(false)}>Cancel</button>
                       </div>
+                     
+                     <div className="after-edit">
+                      <button onClick={PersonalSubmitHandler}>Save</button>
+                      <button onClick={PersonalCancelSocialHandler}>Cancel</button>
+                     </div>
+                      
                     </div>
                   ) : (
                     <div>

@@ -12,7 +12,14 @@ const Document = () => {
   const [experience, setExperience] = useState();
   const user = JSON.parse(localStorage.getItem("EMSuser"));
   const [loading, setloading] = useState();
-  const [name,setName]=useState();
+  const [name, setName] = useState();
+  const [uploadDisble, setUploadDisable] = useState(true);
+  const [panDisble, setPanDisable] = useState(true);
+  const [gradDisble, setGradDisable] = useState(true);
+  const [senDisble, setSenDisable] = useState(true);
+  const [secDisble, setSecDisable] = useState(true);
+  const [resumeDisble, setResumeDisable] = useState(true);
+  const [relieveDisable, setRelieveDisable] = useState(true);
 
   const [status, setStatus] = useState('');
   var today = new Date();
@@ -23,8 +30,39 @@ const Document = () => {
 
   const id = JSON.parse(localStorage.getItem("EMSuser")).id;
 
-  const fileHandler = (e) => {
+  const relievingHandler = (e) => {
     setFile(e.target.files[0]);
+    setRelieveDisable(false);
+  }
+
+  const aadharHandler = (e) => {
+    setFile(e.target.files[0]);
+    setUploadDisable(false);
+  }
+
+  const panHandler = (e) => {
+    setFile(e.target.files[0]);
+    setPanDisable(false);
+  }
+
+  const gradHandler = (e) => {
+    setFile(e.target.files[0]);
+    setGradDisable(false);
+  }
+
+  const senHandler = (e) => {
+    setFile(e.target.files[0]);
+    setSenDisable(false);
+  }
+
+  const secHandler = (e) => {
+    setFile(e.target.files[0]);
+    setSecDisable(false);
+  }
+
+  const resumeHandler = (e) => {
+    setFile(e.target.files[0]);
+    setResumeDisable(false);
   }
 
   useEffect(() => {
@@ -109,37 +147,30 @@ const Document = () => {
                 </thead>
                 <tbody>
                   {
-                    experience == 'experienced' &&
+                    experience === 'experienced' &&
                     <tr>
                       <th scope="row">Relieving Letter</th>
-                      <td> <input type="file" name={file} onChange={fileHandler} required accept='.pdf' /> </td>
-                      <td> <button onClick={() => { uploadFile('relievingLetter') }} >
-                        {
-                          (loading && name=='relievingLetter') ?
-                            <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                              <span class="visually-hidden">Loading...</span>
-                            </div> : 'Upload'
-                        }
-                      </button> </td>
+                      <td> <input type="file" name={file} onChange={relievingHandler} accept='.pdf' /> </td>
+                      <td> <button onClick={() => { uploadFile('relievingLetter') }} disabled={relieveDisable} className={relieveDisable ? "disabledocumentbutton" : "documentbutton"} >Upload</button> </td>
                       {status.relievingLetter ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                       {
-                        status.relievingLetter && status.relievingLetter == 'pending' &&
+                        status.relievingLetter && status.relievingLetter === 'pending' &&
                         <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                       }
                       {
-                        status.relievingLetter && status.relievingLetter == 'uploaded' &&
+                        status.relievingLetter && status.relievingLetter === 'uploaded' &&
                         <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                       }
                       {
-                        status.relievingLetter && status.relievingLetter == 'failed' &&
+                        status.relievingLetter && status.relievingLetter === 'failed' &&
                         <td> <div className='status' style={{ 'color': 'red' }}>Failed</div> </td>
                       }
                       {
-                        status.relievingLetter && status.relievingLetter == 'rejected' &&
+                        status.relievingLetter && status.relievingLetter === 'rejected' &&
                         <td> <div className='status' style={{ 'color': 'red' }}>Rejected</div> </td>
                       }
                       {
-                        status.relievingLetter && status.relievingLetter == 'approved' &&
+                        status.relievingLetter && status.relievingLetter === 'approved' &&
                         <td> <div className='status' style={{ 'color': 'green' }}>Approved</div> </td>
                       }
                       {
@@ -151,34 +182,27 @@ const Document = () => {
                   }
                   <tr>
                     <th scope="row">  Aadhar Card</th>
-                    <td><input type="file" name={file} onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
-                    <td><button onClick={() => { uploadFile('aadharCard') }}>
-                      {
-                        (loading && name=='aadharCard') ?
-                          <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                            <span class="visually-hidden">Loading...</span>
-                          </div> : 'Upload'
-                      }
-                    </button></td>
+                    <td><input type="file" name={file} onChange={aadharHandler} accept='.pdf' /></td>
+                    <td><button onClick={() => { uploadFile('aadharCard') }} className={uploadDisble ? "disabledocumentbutton" : "documentbutton"} disabled={uploadDisble}>Upload</button></td>
                     {status.aadharCard ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                     {
-                      status.aadharCard && status.aadharCard == 'pending' &&
+                      status.aadharCard && status.aadharCard === 'pending' &&
                       <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                     }
                     {
-                      status.aadharCard && status.aadharCard == 'uploaded' &&
+                      status.aadharCard && status.aadharCard === 'uploaded' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                     }
                     {
-                      status.aadharCard && status.aadharCard == 'rejected' &&
+                      status.aadharCard && status.aadharCard === 'rejected' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Rejected</div> </td>
                     }
                     {
-                      status.aadharCard && status.aadharCard == 'failed' &&
+                      status.aadharCard && status.aadharCard === 'failed' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Failed</div> </td>
                     }
                     {
-                      status.aadharCard && status.aadharCard == 'approved' &&
+                      status.aadharCard && status.aadharCard === 'approved' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Approved</div> </td>
                     }
                     {
@@ -189,34 +213,27 @@ const Document = () => {
                   </tr>
                   <tr>
                     <th scope="row">  Pan Card</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
-                    <td><button onClick={() => { uploadFile('panCard') }}>
-                      {
-                        (loading && name=='panCard') ?
-                          <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                            <span class="visually-hidden">Loading...</span>
-                          </div> : 'Upload'
-                      }
-                    </button></td>
+                    <td><input type="file" onChange={panHandler} accept='.pdf' /></td>
+                    <td><button onClick={() => { uploadFile('panCard') }} className={panDisble ? "disabledocumentbutton" : "documentbutton"} disabled={panDisble}>Upload</button></td>
                     {status.panCard ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                     {
-                      status.panCard && status.panCard == 'pending' &&
+                      status.panCard && status.panCard === 'pending' &&
                       <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                     }
                     {
-                      status.panCard && status.panCard == 'uploaded' &&
+                      status.panCard && status.panCard === 'uploaded' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                     }
                     {
-                      status.panCard && status.panCard == 'failed' &&
+                      status.panCard && status.panCard === 'failed' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Failed</div> </td>
                     }
                     {
-                      status.panCard && status.panCard == 'rejected' &&
+                      status.panCard && status.panCard === 'rejected' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Rejected</div> </td>
                     }
                     {
-                      status.panCard && status.panCard == 'approved' &&
+                      status.panCard && status.panCard === 'approved' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Approved</div> </td>
                     }
                     {
@@ -228,34 +245,27 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Graduation Marksheet</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
-                    <td><button onClick={() => { uploadFile('graduate') }}>
-                      {
-                        (loading && name=='graduate') ?
-                          <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                            <span class="visually-hidden">Loading...</span>
-                          </div> : 'Upload'
-                      }
-                    </button></td>
+                    <td><input type="file" onChange={gradHandler} accept='.pdf' /></td>
+                    <td><button onClick={() => { uploadFile('graduate') }} className={gradDisble ? "disabledocumentbutton" : "documentbutton"} disabled={gradDisble}>Upload</button></td>
                     {status.graduate ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                     {
-                      status.graduate && status.graduate == 'pending' &&
+                      status.graduate && status.graduate === 'pending' &&
                       <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                     }
                     {
-                      status.graduate && status.graduate == 'uploaded' &&
+                      status.graduate && status.graduate === 'uploaded' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                     }
                     {
-                      status.graduate && status.graduate == 'rejected' &&
+                      status.graduate && status.graduate === 'rejected' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Rejected</div> </td>
                     }
                     {
-                      status.graduate && status.graduate == 'failed' &&
+                      status.graduate && status.graduate === 'failed' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Failed</div> </td>
                     }
                     {
-                      status.graduate && status.graduate == 'approved' &&
+                      status.graduate && status.graduate === 'approved' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Approved</div> </td>
                     }
                     {
@@ -267,34 +277,27 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Senior Secondary Marksheet</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
-                    <td><button onClick={() => { uploadFile('twelth') }}>
-                      {
-                        (loading && name=='twelth') ?
-                          <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                            <span class="visually-hidden">Loading...</span>
-                          </div> : 'Upload'
-                      }
-                    </button></td>
+                    <td><input type="file" onChange={senHandler} accept='.pdf' /></td>
+                    <td><button onClick={() => { uploadFile('twelth') }} className={senDisble ? "disabledocumentbutton" : "documentbutton"} disabled={senDisble}>Upload</button></td>
                     {status.twelth ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                     {
-                      status.twelth && status.twelth == 'pending' &&
+                      status.twelth && status.twelth === 'pending' &&
                       <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                     }
                     {
-                      status.twelth && status.twelth == 'uploaded' &&
+                      status.twelth && status.twelth === 'uploaded' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                     }
                     {
-                      status.twelth && status.twelth == 'failed' &&
+                      status.twelth && status.twelth === 'failed' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Failed</div> </td>
                     }
                     {
-                      status.twelth && status.twelth == 'rejected' &&
+                      status.twelth && status.twelth === 'rejected' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Rejected</div> </td>
                     }
                     {
-                      status.twelth && status.twelth == 'approved' &&
+                      status.twelth && status.twelth === 'approved' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Approved</div> </td>
                     }
                     {
@@ -306,34 +309,27 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Secondary Marksheet</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
-                    <td><button onClick={() => { uploadFile('tenth') }}>
-                      {
-                        (loading && name=='tenth') ?
-                          <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                            <span class="visually-hidden">Loading...</span>
-                          </div> : 'Upload'
-                      }
-                    </button></td>
+                    <td><input type="file" onChange={secHandler} accept='.pdf' /></td>
+                    <td><button onClick={() => { uploadFile('tenth') }} className={secDisble ? "disabledocumentbutton" : "documentbutton"} disabled={secDisble}>Upload</button></td>
                     {status.tenth ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                     {
-                      status.tenth && status.tenth == 'pending' &&
+                      status.tenth && status.tenth === 'pending' &&
                       <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                     }
                     {
-                      status.tenth && status.tenth == 'uploaded' &&
+                      status.tenth && status.tenth === 'uploaded' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                     }
                     {
-                      status.tenth && status.tenth == 'failed' &&
+                      status.tenth && status.tenth === 'failed' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Failed</div> </td>
                     }
                     {
-                      status.tenth && status.tenth == 'rejected' &&
+                      status.tenth && status.tenth === 'rejected' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Rejected</div> </td>
                     }
                     {
-                      status.tenth && status.tenth == 'approved' &&
+                      status.tenth && status.tenth === 'approved' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Approved</div> </td>
                     }
                     {
@@ -345,34 +341,27 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Resume</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
-                    <td><button onClick={() => { uploadFile('resume') }}>
-                      {
-                        (loading && name=='resume') ?
-                          <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                            <span class="visually-hidden">Loading...</span>
-                          </div> : 'Upload'
-                      }
-                    </button></td>
+                    <td><input type="file" onChange={resumeHandler} accept='.pdf' /></td>
+                    <td><button onClick={() => { uploadFile('resume') }} className={resumeDisble ? "disabledocumentbutton" : "documentbutton"} disabled={resumeDisble}>Upload</button></td>
                     {status.resume ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                     {
-                      status.resume && status.resume == 'pending' &&
+                      status.resume && status.resume === 'pending' &&
                       <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                     }
                     {
-                      status.resume && status.resume == 'uploaded' &&
+                      status.resume && status.resume === 'uploaded' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                     }
                     {
-                      status.resume && status.resume == 'failed' &&
+                      status.resume && status.resume === 'failed' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Failed</div> </td>
                     }
                     {
-                      status.resume && status.resume == 'rejected' &&
+                      status.resume && status.resume === 'rejected' &&
                       <td> <div className='status' style={{ 'color': 'red' }}>Rejected</div> </td>
                     }
                     {
-                      status.resume && status.resume == 'approved' &&
+                      status.resume && status.resume === 'approved' &&
                       <td> <div className='status' style={{ 'color': 'green' }}>Approved</div> </td>
                     }
                     {

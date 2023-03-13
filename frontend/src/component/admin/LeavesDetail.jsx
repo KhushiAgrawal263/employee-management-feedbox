@@ -205,6 +205,7 @@ const LeavesDetail = () => {
     setApprove(false);
     alert("Leave declined Successfully !!!");
     window.location.href = "/leaveDetails";
+
   };
 
   return (
