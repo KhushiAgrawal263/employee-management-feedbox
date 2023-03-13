@@ -6,9 +6,9 @@ import axios from "axios";
 import Sidebar from "../Sidebar";
 import NavBar from "../NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FaInstagram } from 'react-icons/fa';
-import { IoLogoLinkedin } from 'react-icons/io';
-import { AiFillTwitterSquare } from 'react-icons/ai';
+import { FaInstagram } from "react-icons/fa";
+import { IoLogoLinkedin } from "react-icons/io";
+import { AiFillTwitterSquare } from "react-icons/ai";
 import {
   faCircleInfo,
   faEdit,
@@ -31,7 +31,7 @@ const Main = () => {
   const [insta, setInsta] = useState();
   const [linked, setLinked] = useState();
   const [twit, setTwit] = useState();
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const u = "http://localhost:8000";
   const user = JSON.parse(localStorage.getItem("EMSuser"));
@@ -61,15 +61,14 @@ const Main = () => {
       setEdited(false);
     };
     fetchurl();
-  }, [userURL, edit, edited,loading]);
-
+  }, [userURL, edit, edited, loading]);
 
   const submitForm = (e) => {
     e.preventDefault();
     const image = e.target.files[0];
     const formData = new FormData();
     formData.append("image", image);
-    setLoading(true)
+    setLoading(true);
     axios
       .post(`http://localhost:8000/upload/${userId}`, formData)
       .then((res) => {
@@ -78,7 +77,6 @@ const Main = () => {
         setLoading(false);
       })
       .catch((err) => console.log(err));
-
   };
 
   const EditHandler = () => {
@@ -121,22 +119,22 @@ const Main = () => {
     setBlood(e.target.value);
   };
   const instaHandler = (e) => {
-    setInsta(e.target.value)
-  }
+    setInsta(e.target.value);
+  };
   const linkedinHandler = (e) => {
-    setLinked(e.target.value)
-  }
+    setLinked(e.target.value);
+  };
   const twitterHandler = (e) => {
-    setTwit(e.target.value)
-  }
-  
+    setTwit(e.target.value);
+  };
+
   const PersonalCancelHandler = async () => {
     setEdit(false);
-  }
+  };
 
   const PersonalCancelSocialHandler = async () => {
     setSocialEdit(false);
-  }
+  };
 
   // update data
   const PersonalSubmitHandler = async () => {
@@ -150,7 +148,7 @@ const Main = () => {
       contactNo: contact,
       gender: gender,
       maritalStatus: marital,
-      bloodGroup: blood
+      bloodGroup: blood,
     };
     console.log(val);
     const res = await fetch(userURL, {
@@ -166,11 +164,11 @@ const Main = () => {
   };
 
   const socialSubmitHandler = async () => {
-    setSocialEdit(false);
+    setLoading(true);
     const val = {
       instaId: insta,
       linkedinId: linked,
-      twitterId: twit
+      twitterId: twit,
     };
     const res = await fetch(userURL, {
       method: "PUT",
@@ -182,7 +180,9 @@ const Main = () => {
     });
     const data = await res.json();
     setEdited(true);
-  }
+    setLoading(false);
+    setSocialEdit(false);
+  };
 
   return (
     <>
@@ -203,12 +203,17 @@ const Main = () => {
               <h3>{data && data.designation}</h3>
               <form className="imageUploadForm">
                 <label htmlFor="img" className="mainButtonEdit">
-                  {
-                    loading ?
-                      <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
-                        <span class="visually-hidden">Loading...</span>
-                      </div> : 'Update Profile Photo'
-                  }
+                  {loading ? (
+                    <div
+                      class="spinner-border"
+                      role="status"
+                      style={{ height: "20px", width: "20px" }}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    "Update Profile Photo"
+                  )}
                   {/* <FontAwesomeIcon icon={faEdit} /> */}{" "}
                 </label>
                 <input
@@ -220,7 +225,7 @@ const Main = () => {
                 />
               </form>
               {data &&
-                (data.docStatus == "none" || data.docStatus == "pending") ? (
+              (data.docStatus == "none" || data.docStatus == "pending") ? (
                 <span
                   title="Please submit your all documents to complete onboarding"
                   className="onboarding"
@@ -336,8 +341,8 @@ const Main = () => {
                         </div>
                       </div>
                       <div className="after-edit">
-                      <button onClick={PersonalSubmitHandler}>Save</button>
-                      <button onClick={PersonalCancelHandler}>Cancel</button>
+                        <button onClick={PersonalSubmitHandler}>Save</button>
+                        <button onClick={PersonalCancelHandler}>Cancel</button>
                       </div>
                     </div>
                   ) : (
@@ -368,11 +373,15 @@ const Main = () => {
                       </div>
                       <div className="cardDetails">
                         <div className="cardQ">Marital Status</div>{" "}
-                        <div className="cardA">: {data && data.maritalStatus} </div>
+                        <div className="cardA">
+                          : {data && data.maritalStatus}{" "}
+                        </div>
                       </div>
                       <div className="cardDetails">
                         <div className="cardQ">Blood Group</div>{" "}
-                        <div className="cardA">: {data && data.bloodGroup} </div>
+                        <div className="cardA">
+                          : {data && data.bloodGroup}{" "}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -442,14 +451,14 @@ const Main = () => {
               </div>
 
               <div className="card ">
-                <div className="cardHeading personal">Projects :
+                <div className="cardHeading personal">
+                  Projects :
                   <button onClick={EditSocialHandler}>
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
                 </div>
 
                 <div className="cradElemet">
-
                   {socialEdit === true ? (
                     <div>
                       <div className="cardDetails">
@@ -466,7 +475,9 @@ const Main = () => {
                         </div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35" /></div>
+                        <div className="cardQA">
+                          <IoLogoLinkedin className="linked" size="35" />
+                        </div>
                         <div className="cardA">
                           <input
                             type="text"
@@ -477,7 +488,9 @@ const Main = () => {
                         </div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35" /></div>
+                        <div className="cardQA">
+                          <AiFillTwitterSquare className="twit" size="35" />
+                        </div>
                         <div className="cardA">
                           <input
                             type="text"
@@ -487,34 +500,61 @@ const Main = () => {
                           />
                         </div>
                       </div>
-                      <div style={{ display: 'flex' }}>
-                        <button onClick={socialSubmitHandler}>Save</button>
-                        <button onClick={() => setSocialEdit(false)}>Cancel</button>
+
+                      <div className="after-edit">
+                      {loading ? (
+                            <div
+                              class="spinner-border"
+                              role="status"
+                              style={{ height: "15px", width: "15px",color:"#15074e",marginRight:"25px",marginTop:"11px" }}
+                            >
+                              <button class="visually-hidden">Loading...</button>
+                            </div>
+                          ) : (
+                            <button onClick={socialSubmitHandler}>Save</button>
+                          )
+                          }
+                        
+                        <button onClick={() => setSocialEdit(false)}>
+                          Cancel
+                        </button>
                       </div>
-                     
-                     <div className="after-edit">
-                      <button onClick={PersonalSubmitHandler}>Save</button>
-                      <button onClick={PersonalCancelSocialHandler}>Cancel</button>
-                     </div>
-                      
                     </div>
                   ) : (
                     <div>
                       <div className="cardDetails">
-                        <div className="cardQA"><img className="insta" src="Image/insta.png" alt="" />
+                        <div className="cardQA">
+                          <img className="insta" src="Image/insta.png" alt="" />
                           {/* <FaInstagram className="insta" size="25" /> */}
                         </div>{" "}
-                        <div className="cardA">: {data && data.instaId}</div>
+                        <div className="cardA">:<a href={data && data.instaId} className="cardALink" target="_blank">{data && data.instaId}</a></div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35" /></div>{" "}
-                        <div className="cardA">: {data && data.linkedinId}</div>
+                        <div className="cardQA">
+                          <IoLogoLinkedin className="linked" size="35" />
+                        </div>{" "}
+                        <div className="cardA">: <a href={data && data.linkedinId} className="cardALink" target="_blank" >  {data && data.linkedinId}</a></div>
+                        
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35" /></div>{" "}
-                        <div className="cardA">: {data && data.twitterId}</div>
+                        <div className="cardQA">
+                          <AiFillTwitterSquare className="twit" size="35" />
+                        </div>{" "}
+                        <div className="cardA">:<a href={data && data.twitterId} className="cardALink" target="_blank">{data && data.twitterId}</a></div>
+                        {/* <div className="cardA">: {data && data.twitterId} */}
+                        {/* {loading ? (
+                            <div
+                              class="spinner-border"
+                              role="status"
+                              style={{ height: "15px", width: "15px",color:"#15074e",marginTop:"7px" }}
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : (
+                            <div>{data && data.twitterId}</div>
+                          )}  */}
+                       {/* </div> */}
                       </div>
-
                     </div>
                   )}
                 </div>
@@ -527,10 +567,7 @@ const Main = () => {
                       </div>
                     ))}
                 </div> */}
-
-
               </div>
-
             </div>
           </div>
 

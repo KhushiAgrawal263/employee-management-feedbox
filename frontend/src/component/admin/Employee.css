@@ -38,6 +38,16 @@
     /* margin-left: 100px; */
 }
 
+.find{
+    padding-right: 50px;
+    padding-top: 20px;
+}
+
+.search{
+    border:1px solid #15074e;
+    background-color: transparent;
+    padding:6px;
+}
 .employeeButton:hover {
     background-color: #15074e;
     color: #ebebfc;
@@ -62,19 +72,17 @@
 .overallCard{
     display: flex;
     flex-wrap: wrap;
-    /* text-align: center; */
-    /* align-items: center; */
 }
 
 .card1div img {
     height : 150px;
     width : 150px;
     margin : 20px;
+    object-fit: cover;
     border-radius: 50%;     
 }
 
 .card1div{
-    /* border: 2px solid black; */
     margin:20px 10px;
     padding: 10px;
     display: flex;
