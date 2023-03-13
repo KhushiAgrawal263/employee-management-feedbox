@@ -31,6 +31,7 @@ const Document = () => {
   const id = JSON.parse(localStorage.getItem("EMSuser")).id;
 
   const relievingHandler = (e) => {
+    setName("relievingLetter")
     setFile(e.target.files[0]);
     setRelieveDisable(false);
   }
@@ -70,13 +71,13 @@ const Document = () => {
       const data = await fetch(`http://localhost:8000/documents/${id}`);
       const res = await data.json();
       console.log(res[0].documents, "res");
-      console.log(res[0].lastModified);
       setExperience(res[0].experience)
       res[0].documents && setStatus(res[0].documents)
       res[0].lastModified && setlastModified(res[0].lastModified)
     }
     fetchDocuments();
-  }, [])
+    setloading(false)
+  }, [loading, status])
 
   const uploadFile = (name) => {
     setloading(true);
@@ -112,10 +113,10 @@ const Document = () => {
         const Notifi = await generateNotifi.json();
         console.log(Notifi);
         setloading(false);
-        window.location.href = '/document'
+        // window.location.href = '/document'
       })
       .catch((err) => {
-        setloading(false);
+        // setloading(false);
         alert('File Upload Failed! Please upload file in PDF format.')
       });
   }
@@ -151,14 +152,15 @@ const Document = () => {
                     <tr>
                       <th scope="row">Relieving Letter</th>
                       <td> <input type="file" name={file} onChange={relievingHandler} accept='.pdf' /> </td>
-                      <td> <button onClick={() => { uploadFile('relievingLetter') }} disabled={relieveDisable} className={relieveDisable ? "disabledocumentbutton" : "documentbutton"} >Upload</button> </td>
+                      <td> <button onClick={() => { uploadFile('relievingLetter') }} disabled={relieveDisable} className={relieveDisable ? "disabledocumentbutton" : "documentbutton"} >
+                      Upload</button> </td>
                       {status.relievingLetter ? '' : <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>}
                       {
                         status.relievingLetter && status.relievingLetter === 'pending' &&
                         <td> <div className='status' style={{ 'color': '#084cdf' }}>Pending</div> </td>
                       }
                       {
-                        status.relievingLetter && status.relievingLetter === 'uploaded' &&
+                        status && status.relievingLetter && status.relievingLetter === 'uploaded' &&
                         <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
                       }
                       {

@@ -32,6 +32,8 @@ const Main = () => {
   const [linked, setLinked] = useState();
   const [twit, setTwit] = useState();
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
 
   const u = "http://localhost:8000";
   const user = JSON.parse(localStorage.getItem("EMSuser"));
@@ -61,7 +63,7 @@ const Main = () => {
       setEdited(false);
     };
     fetchurl();
-  }, [userURL, edit, edited, loading]);
+  }, [userURL, edit, edited, loading,loading2,loading3]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -132,13 +134,10 @@ const Main = () => {
     setEdit(false);
   };
 
-  const PersonalCancelSocialHandler = async () => {
-    setSocialEdit(false);
-  };
 
   // update data
   const PersonalSubmitHandler = async () => {
-    setEdit(false);
+    setLoading2(true);
     console.log(gender);
     const val = {
       email: email,
@@ -160,11 +159,13 @@ const Main = () => {
       body: JSON.stringify(val),
     });
     const data = await res.json();
+    setLoading2(false);
+    setEdit(false);
     setEdited(true);
   };
 
   const socialSubmitHandler = async () => {
-    setLoading(true);
+    setLoading3(true);
     const val = {
       instaId: insta,
       linkedinId: linked,
@@ -180,7 +181,7 @@ const Main = () => {
     });
     const data = await res.json();
     setEdited(true);
-    setLoading(false);
+    setLoading3(false);
     setSocialEdit(false);
   };
 
@@ -325,7 +326,7 @@ const Main = () => {
                             type="text"
                             value={marital}
                             onChange={maritalHandler}
-                            placeholder={data.marital}
+                            placeholder={data.maritalStatus}
                           />
                         </div>
                       </div>
@@ -336,12 +337,24 @@ const Main = () => {
                             type="text"
                             value={blood}
                             onChange={bloodHandler}
-                            placeholder={data.blood}
+                            placeholder={data.bloodGroup}
                           />
                         </div>
                       </div>
                       <div className="after-edit">
-                        <button onClick={PersonalSubmitHandler}>Save</button>
+                      {loading2 ? (
+                            <div
+                              class="spinner-border"
+                              role="status"
+                              style={{ height: "15px", width: "15px",color:"#15074e",marginRight:"20px",marginTop:"16px" }}
+                            >
+                              <button class="visually-hidden">Loading...</button>
+                            </div>
+                          ) : (
+                            <button onClick={PersonalSubmitHandler}>Save</button>
+                          )
+                          }
+                    
                         <button onClick={PersonalCancelHandler}>Cancel</button>
                       </div>
                     </div>
@@ -452,7 +465,7 @@ const Main = () => {
 
               <div className="card ">
                 <div className="cardHeading personal">
-                  Projects :
+                  Social Profiles :
                   <button onClick={EditSocialHandler}>
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
@@ -502,11 +515,11 @@ const Main = () => {
                       </div>
 
                       <div className="after-edit">
-                      {loading ? (
+                      {loading3 ? (
                             <div
                               class="spinner-border"
                               role="status"
-                              style={{ height: "15px", width: "15px",color:"#15074e",marginRight:"25px",marginTop:"11px" }}
+                              style={{ height: "15px", width: "15px",color:"#15074e",marginRight:"25px",marginTop:"15px" }}
                             >
                               <button class="visually-hidden">Loading...</button>
                             </div>

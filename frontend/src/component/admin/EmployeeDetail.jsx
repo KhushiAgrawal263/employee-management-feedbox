@@ -13,7 +13,7 @@ const EmployeeDetail = () => {
 
   const [user, setUser] = useState();
   const [updateButton, setUpdateButton] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(user && user.email);
   const [address, setAddress] = useState();
   const [contact, setContact] = useState();
@@ -21,7 +21,7 @@ const EmployeeDetail = () => {
   const [ctc, SetCtc] = useState();
   const [oEmail, setOEmail] = useState();
   const [marital, setMarital] = useState();
-  const [reload,setReload] = useState(false);
+  const [reload, setReload] = useState(false);
 
   // get user
   useEffect(() => {
@@ -38,7 +38,7 @@ const EmployeeDetail = () => {
       setUser(data);
     }
     fetchurl();
-  }, [userURL,reload]);
+  }, [userURL, reload]);
 
 
   const editHandler = () => {
@@ -47,6 +47,7 @@ const EmployeeDetail = () => {
 
   const saveHandler = async () => {
     setReload(true)
+    setLoading(true);
     const val = {
       email: email,
       address: address,
@@ -56,7 +57,6 @@ const EmployeeDetail = () => {
       oEmail: oEmail,
       maritalStatus: marital
     }
-    console.log(val);
     const res = await fetch(userURL, {
       method: 'PUT',
       headers: {
@@ -67,7 +67,8 @@ const EmployeeDetail = () => {
     });
     const data = await res.json();
     setUpdateButton(false);
-    // window.location.href = '/EmployeeDetails'
+    // window.location.href='/EmployeeDetails'
+    setLoading(false);
   }
 
   return (
@@ -92,7 +93,7 @@ const EmployeeDetail = () => {
 
           <div className='AllDetails'>
 
-            <button type="button" className="btn btn-outline-dark" onClick={editHandler}>Edit Information</button>
+            <button type="button" className="all-details-btn" onClick={editHandler}>Edit Information</button>
 
             {
               updateButton === true ?
@@ -197,9 +198,18 @@ const EmployeeDetail = () => {
                     </table>
                   </div>
 
-                  <button className='btn btn-success' onClick={saveHandler}>Save</button>
-
-                </div>
+                  {loading ? (
+                    <div
+                      class="spinner-border"
+                      role="status"
+                      style={{ height: "20px", width: "20px", float: "right", marginRight: "150px", marginTop: "-25px" }}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    <button className='save-btn' onClick={saveHandler}>Save</button>
+                  )}
+                </div >
                 :
                 <div>
                   <div className='pDetails'>
@@ -300,14 +310,14 @@ const EmployeeDetail = () => {
                     </table>
                   </div>
 
-                  <div className='pDetails'>
+                  {/* <div className='pDetails'>
                     {user ? <AddTask props={{ task: user.taskCompleted, id: user._id }} /> : <p>Loading...</p>}
-                  </div>
+                  </div> */}
                 </div>
             }
-          </div>
-        </div>
-      </div>
+          </div >
+        </div >
+      </div >
     </>
   )
 }

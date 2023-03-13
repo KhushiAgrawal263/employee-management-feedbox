@@ -153,6 +153,7 @@ const DocumentDetails = () => {
     }
 
     const handleModalSubmit = () => {
+        setReject('');
         setShow(false);
         if (reject && declineName && declineType && declineValue) {
             updateStatus(declineName, declineType);
@@ -484,9 +485,9 @@ const DocumentDetails = () => {
                             {
                                 data && data.docStatus == 'pending' ? (documents.relievingLetter == 'approved' && documents.aadharCard == 'approved' && documents.panCard == 'approved' && documents.graduate == 'approved' && documents.twelth == 'approved' && documents.tenth == 'approved' && documents.resume == 'approved') ?
                                     <button className=' approve-btn' onClick={approveAllDocument}>{btnValue}</button> :
-                                    <button className='approve-btn-disabled' disabled>Approve all</button>
+                                    <button className='approve-btn-disabled' disabled>Verify Documents</button>
                                     :
-                                    <button className=' approve-btn-disbaled' disabled>Approved</button>
+                                    <button className=' approve-btn-disbaled' disabled>Verified</button>
                             }
                         </div>
 

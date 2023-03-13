@@ -67,14 +67,14 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <Link to='/reviewWfh' style={{'textDecoration' : 'none'}}>
+          {/* <Link to='/reviewWfh' style={{'textDecoration' : 'none'}}>
             <div className= {selectedPage == '/reviewWfh' || selectedPage == '/wfhDetails' ? 'sideItem1 sideItem' : 'sideItem'}>
               <div className='sideLink'>
                 <FontAwesomeIcon icon={faHouseLaptop} className='fAIcon' />
                 <div>WFH</div>
               </div>
             </div>
-          </Link>
+          </Link> */}
 
           <Link to='/adminCal' style={{'textDecoration' : 'none'}}>
             <div className= {selectedPage == '/adminCal' ? 'sideItem1 sideItem' : 'sideItem'} >
@@ -135,14 +135,14 @@ const Sidebar = () => {
             </div>
           </Link>
 
-          <Link to='/workFromHome' style={{'textDecoration' : 'none'}}>
+          {/* <Link to='/workFromHome' style={{'textDecoration' : 'none'}}>
             <div className= {selectedPage == '/workFromHome' ? 'sideItem1 sideItem' : 'sideItem'}>
               <div to='/workFromHome' className='sideLink'>
                 <FontAwesomeIcon icon={faLaptop} className='fAIcon' />
                 <div>WFH</div>
               </div>
             </div>
-          </Link>
+          </Link> */}
 
           <Link to='/rules' style={{'textDecoration' : 'none'}}>
             <div className= {selectedPage == '/rules' ? 'sideItem1 sideItem' : 'sideItem'} >
