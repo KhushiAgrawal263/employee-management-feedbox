@@ -146,6 +146,15 @@
     flex-direction : row
 }
 
+.cardALink{
+    text-decoration: none;
+    color:black;
+    width:500px;
+}
+
+.cardALink:hover{
+    text-decoration: underline;
+}
 .cardQ {
     padding-bottom: 8px;
     font-weight : 700;
@@ -161,11 +170,14 @@
 }
 
 .cardA {
+    display: flex;
+    gap:6px;
     font-size : 1.1rem;
 }
 
 .cardA input {
     width: 200px;
+    margin:4px;
     font-size: 1rem;
     padding-left: 5px;
 }

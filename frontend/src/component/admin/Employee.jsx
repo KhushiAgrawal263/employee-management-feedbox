@@ -70,7 +70,7 @@ const AddEmployee = () => {
 
                     <div className='addEmployee'>
                         <div className='employeeBG' >
-                            <div style={{ display: 'flex' }}>
+                            <div style={{ display: 'flex',justifyContent:"space-between" }}>
                                 <div className='addButton'>
                                     <p className='count'>Employee :</p>
                                     <p className='countNum'> {count}</p>
