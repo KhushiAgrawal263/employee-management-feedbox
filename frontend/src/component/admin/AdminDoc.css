@@ -30,7 +30,7 @@
 }
 .documentDetails span {
     color : #1d1f5e;
-    text-shadow: 3px 3px 5px #4c4f4d;
+    /* text-shadow: 3px 3px 5px #4c4f4d; */
 }
 
 .documentDetails h6{
@@ -66,24 +66,27 @@
 }
 .docVeri{
     width: 30%;
+    padding-left: 30px;
     /* border: 2px solid red; */
 
 }
 
 .pdf {
     text-align: center;
-    /* border: 2px solid red; */
     width: 30%;
-    /* padding-left: 100px; */
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 .docButton {
     text-align: center;
     /* align-items: flex-start; */
     /* border: 2px solid red; */
-    /* text-align: left; */
+    text-align: right;
     width: 40%;
-    /* padding-left: 30px; */
+    
+    /* padding-left: 100px; */
+    padding-right: 60px
 }
 
 .cancelButton {
@@ -145,7 +148,6 @@
     color: #ebebfc;
 }
 
-<<<<<<< HEAD
 .approve-btn-disabled{
     padding: 8px;
     border-radius: 5px;
@@ -153,7 +155,8 @@
     border: 2px solid #15074e;
     transition: all 0.2s ease-in-out;
     font-weight: 500;
-=======
+
+}
 .modal-body{
     justify-content: center;
     align-items: center;
@@ -182,5 +185,4 @@
     border:1px solid #15074e;
     color: #15074e;
     background-color: white;
->>>>>>> f91ad94685eff68fa3e1102012e9b90a5fc8a812
 }

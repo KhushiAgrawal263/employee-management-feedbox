@@ -96,42 +96,48 @@ const userSchema = mongoose.Schema(
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             panCard:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             graduate:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             tenth:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             twelth:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             resume:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             }
         }
     }

@@ -112,7 +112,7 @@ const Document = () => {
                     experience == 'experienced' &&
                     <tr>
                       <th scope="row">Relieving Letter</th>
-                      <td> <input type="file" name={file} onChange={fileHandler} required /> </td>
+                      <td> <input type="file" name={file} onChange={fileHandler} required accept='.pdf' /> </td>
                       <td> <button onClick={() => { uploadFile('relievingLetter') }} >
                         {
                           (loading && name=='relievingLetter') ?
@@ -151,7 +151,7 @@ const Document = () => {
                   }
                   <tr>
                     <th scope="row">  Aadhar Card</th>
-                    <td><input type="file" name={file} onChange={(e) => setFile(e.target.files[0])} required /></td>
+                    <td><input type="file" name={file} onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
                     <td><button onClick={() => { uploadFile('aadharCard') }}>
                       {
                         (loading && name=='aadharCard') ?
@@ -189,7 +189,7 @@ const Document = () => {
                   </tr>
                   <tr>
                     <th scope="row">  Pan Card</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required /></td>
+                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
                     <td><button onClick={() => { uploadFile('panCard') }}>
                       {
                         (loading && name=='panCard') ?
@@ -228,7 +228,7 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Graduation Marksheet</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required /></td>
+                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
                     <td><button onClick={() => { uploadFile('graduate') }}>
                       {
                         (loading && name=='graduate') ?
@@ -267,7 +267,7 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Senior Secondary Marksheet</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required /></td>
+                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
                     <td><button onClick={() => { uploadFile('twelth') }}>
                       {
                         (loading && name=='twelth') ?
@@ -306,7 +306,7 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Secondary Marksheet</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required /></td>
+                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
                     <td><button onClick={() => { uploadFile('tenth') }}>
                       {
                         (loading && name=='tenth') ?
@@ -345,7 +345,7 @@ const Document = () => {
 
                   <tr>
                     <th scope="row">  Resume</th>
-                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required /></td>
+                    <td><input type="file" onChange={(e) => setFile(e.target.files[0])} required accept='.pdf'/></td>
                     <td><button onClick={() => { uploadFile('resume') }}>
                       {
                         (loading && name=='resume') ?

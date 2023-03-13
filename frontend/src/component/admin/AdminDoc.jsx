@@ -32,7 +32,7 @@ const AdminDoc = () => {
         <NavBar />
         <div className='adminDoc'>
         <div className='adminDocBg'>
-        <table class="table table-striped levaeTable">
+        <table class="table table-striped levaeTable table-hover">
                 <thead>
                     <tr>
                     {/* <th scope='col'>S.No.</th> */}

@@ -34,7 +34,7 @@ const ReviewLeave = () => {
             !loading ?
             <div className='reviewLeaveBg'>
         <div className='reviewLeave'>
-            <table class="table table-striped levaeTable">
+            <table class="table table-striped levaeTable table-hover">
                 <thead>
                     <tr>
                     <th scope="col">Id</th>

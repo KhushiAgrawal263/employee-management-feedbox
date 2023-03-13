@@ -6,9 +6,9 @@ import axios from "axios";
 import Sidebar from "../Sidebar";
 import NavBar from "../NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {FaInstagram} from 'react-icons/fa';
-import {IoLogoLinkedin} from 'react-icons/io';
-import {AiFillTwitterSquare} from 'react-icons/ai';
+import { FaInstagram } from 'react-icons/fa';
+import { IoLogoLinkedin } from 'react-icons/io';
+import { AiFillTwitterSquare } from 'react-icons/ai';
 import {
   faCircleInfo,
   faEdit,
@@ -31,6 +31,7 @@ const Main = () => {
   const [insta, setInsta] = useState();
   const [linked, setLinked] = useState();
   const [twit, setTwit] = useState();
+  const [loading,setLoading] = useState(false);
 
   const u = "http://localhost:8000";
   const user = JSON.parse(localStorage.getItem("EMSuser"));
@@ -60,7 +61,7 @@ const Main = () => {
       setEdited(false);
     };
     fetchurl();
-  }, [userURL, edit, edited]);
+  }, [userURL, edit, edited,loading]);
 
 
   const submitForm = (e) => {
@@ -68,14 +69,16 @@ const Main = () => {
     const image = e.target.files[0];
     const formData = new FormData();
     formData.append("image", image);
-
+    setLoading(true)
     axios
       .post(`http://localhost:8000/upload/${userId}`, formData)
       .then((res) => {
         alert("Image Updated Successfully!");
         setEdited(true);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
+
   };
 
   const EditHandler = () => {
@@ -117,16 +120,16 @@ const Main = () => {
   const bloodHandler = (e) => {
     setBlood(e.target.value);
   };
-  const instaHandler=(e)=>{
+  const instaHandler = (e) => {
     setInsta(e.target.value)
   }
-  const linkedinHandler=(e)=>{
+  const linkedinHandler = (e) => {
     setLinked(e.target.value)
   }
-  const twitterHandler=(e)=>{
+  const twitterHandler = (e) => {
     setTwit(e.target.value)
   }
-  
+
   // update data
   const PersonalSubmitHandler = async () => {
     setEdit(false);
@@ -137,9 +140,9 @@ const Main = () => {
       aadharNo: aadhar,
       address: address,
       contactNo: contact,
-      gender:gender,
-      maritalStatus:marital,
-      bloodGroup:blood
+      gender: gender,
+      maritalStatus: marital,
+      bloodGroup: blood
     };
     console.log(val);
     const res = await fetch(userURL, {
@@ -154,12 +157,12 @@ const Main = () => {
     setEdited(true);
   };
 
-  const socialSubmitHandler=async ()=>{
+  const socialSubmitHandler = async () => {
     setSocialEdit(false);
     const val = {
-      instaId:insta,
-      linkedinId:linked,
-      twitterId:twit
+      instaId: insta,
+      linkedinId: linked,
+      twitterId: twit
     };
     const res = await fetch(userURL, {
       method: "PUT",
@@ -176,7 +179,7 @@ const Main = () => {
   return (
     <>
       <Sidebar />
-      <NavBar />
+      <NavBar image={data && data.image.data} />
       <div className="mainBg">
         <div className="main">
           <div className="mainInfo">
@@ -192,8 +195,12 @@ const Main = () => {
               <h3>{data && data.designation}</h3>
               <form className="imageUploadForm">
                 <label htmlFor="img" className="mainButtonEdit">
-                  {" "}
-                  Update Profile Photo
+                  {
+                    loading ?
+                      <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                        <span class="visually-hidden">Loading...</span>
+                      </div> : 'Update Profile Photo'
+                  }
                   {/* <FontAwesomeIcon icon={faEdit} /> */}{" "}
                 </label>
                 <input
@@ -201,10 +208,11 @@ const Main = () => {
                   id="img"
                   onChange={submitForm}
                   className="photoInput"
+                  accept="image/*"
                 />
               </form>
               {data &&
-              (data.docStatus == "none" || data.docStatus == "pending") ? (
+                (data.docStatus == "none" || data.docStatus == "pending") ? (
                 <span
                   title="Please submit your all documents to complete onboarding"
                   className="onboarding"
@@ -216,10 +224,10 @@ const Main = () => {
               )}
             </div>
           </div>
-              
+
           <div className="overall-card-div">
             <div className="main-card">
-            <div className="card ">
+              <div className="card ">
                 <div className="cardHeading personal">
                   Personal Details :
                   <button onClick={EditHandler}>
@@ -363,32 +371,32 @@ const Main = () => {
               <div className="card  ">
                 <div className="cardHeading">Professional Details : </div>
                 {/* <div className="cardBg"> */}
-                  <div className="cradElemet">
-                    <div className="cardDetails">
-                      <div className="cardQ">Designation</div>{" "}
-                      <div className="cardA">: {data && data.designation}</div>
-                    </div>
-                    <div className="cardDetails">
-                      <div className="cardQ">Joining Date</div>{" "}
-                      <div className="cardA">: {data && data.joiningDate}</div>
-                    </div>
-                    <div className="cardDetails">
-                      <div className="cardQ">Bond Duration</div>{" "}
-                      <div className="cardA">: {data && data.bond}</div>
-                    </div>
-                    <div className="cardDetails">
-                      <div className="cardQ">Experience</div>{" "}
-                      <div className="cardA">: {data && data.experience}</div>
-                    </div>
-                    <div className="cardDetails">
-                      <div className="cardQ">Employee ID</div>{" "}
-                      <div className="cardA">: {data && data.empId}</div>
-                    </div>
-                    <div className="cardDetails">
-                      <div className="cardQ">Office Email iD</div>{" "}
-                      <div className="cardA">: {data && data.oEmail}</div>
-                    </div>
+                <div className="cradElemet">
+                  <div className="cardDetails">
+                    <div className="cardQ">Designation</div>{" "}
+                    <div className="cardA">: {data && data.designation}</div>
                   </div>
+                  <div className="cardDetails">
+                    <div className="cardQ">Joining Date</div>{" "}
+                    <div className="cardA">: {data && data.joiningDate}</div>
+                  </div>
+                  <div className="cardDetails">
+                    <div className="cardQ">Bond Duration</div>{" "}
+                    <div className="cardA">: {data && data.bond}</div>
+                  </div>
+                  <div className="cardDetails">
+                    <div className="cardQ">Experience</div>{" "}
+                    <div className="cardA">: {data && data.experience}</div>
+                  </div>
+                  <div className="cardDetails">
+                    <div className="cardQ">Employee ID</div>{" "}
+                    <div className="cardA">: {data && data.empId}</div>
+                  </div>
+                  <div className="cardDetails">
+                    <div className="cardQ">Office Email iD</div>{" "}
+                    <div className="cardA">: {data && data.oEmail}</div>
+                  </div>
+                </div>
                 {/* </div> */}
               </div>
 
@@ -423,71 +431,73 @@ const Main = () => {
               </div>
 
               <div className="card ">
-                <div className="cardHeading personal">Projects : 
-                <button onClick={EditSocialHandler}>
+                <div className="cardHeading personal">Projects :
+                  <button onClick={EditSocialHandler}>
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
                 </div>
 
                 <div className="cradElemet">
 
-                    {socialEdit === true ? (
-                    <div>        
+                  {socialEdit === true ? (
+                    <div>
                       <div className="cardDetails">
                         <div className="cardQA">
-                          <img className="insta" src="Image/insta.png" alt=""/>
-                          </div>
+                          <img className="insta" src="Image/insta.png" alt="" />
+                        </div>
                         <div className="cardA">
                           <input
                             type="text"
                             value={insta}
                             onChange={instaHandler}
-                            placeholder="Enter Instagram Profile"
+                            placeholder={data.instaId}
                           />
                         </div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35"/></div>
+                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35" /></div>
                         <div className="cardA">
                           <input
                             type="text"
                             value={linked}
                             onChange={linkedinHandler}
-                            placeholder="Enter Linkedin Profile"
+                            placeholder={data.linkedinId}
                           />
                         </div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35"/></div>
+                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35" /></div>
                         <div className="cardA">
                           <input
                             type="text"
                             value={twit}
                             onChange={twitterHandler}
-                            placeholder="Enter Twitter Profile"
+                            placeholder={data.twitterId}
                           />
                         </div>
                       </div>
-                     
-                      <button onClick={socialSubmitHandler}>Save</button>
+                      <div style={{ display: 'flex' }}>
+                        <button onClick={socialSubmitHandler}>Save</button>
+                        <button onClick={() => setSocialEdit(false)}>Cancel</button>
+                      </div>
                     </div>
                   ) : (
                     <div>
                       <div className="cardDetails">
-                        <div className="cardQA"><img className="insta" src="Image/insta.png" alt=""/>
+                        <div className="cardQA"><img className="insta" src="Image/insta.png" alt="" />
                           {/* <FaInstagram className="insta" size="25" /> */}
-                          </div>{" "}
+                        </div>{" "}
                         <div className="cardA">: {data && data.instaId}</div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35"/></div>{" "}
+                        <div className="cardQA"><IoLogoLinkedin className="linked" size="35" /></div>{" "}
                         <div className="cardA">: {data && data.linkedinId}</div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35"/></div>{" "}
+                        <div className="cardQA"><AiFillTwitterSquare className="twit" size="35" /></div>{" "}
                         <div className="cardA">: {data && data.twitterId}</div>
                       </div>
-                    
+
                     </div>
                   )}
                 </div>
