@@ -14,9 +14,9 @@ const DocumentDetails = () => {
     const user = location.state.user;
     // console.log(user);
     // const documents = user.documents;
-    const [documents,setDocuments] = useState()
+    const [documents, setDocuments] = useState()
     const [show, setShow] = useState(false);
-    const [data,setData] = useState();
+    const [data, setData] = useState();
     const [displayRL, setDisplayRL] = useState();
     const [displayAC, setDisplayAC] = useState();
     const [displayPC, setDisplayPC] = useState();
@@ -24,54 +24,83 @@ const DocumentDetails = () => {
     const [displaySSM, setDisplaySSM] = useState();
     const [displaySM, setDisplaySM] = useState();
     const [displayResume, setDisplayResume] = useState();
-    const [btnValue,setBtnValue]  = useState('Approve All');
-    const[reject,setReject]=useState("");
+    const [btnValue, setBtnValue] = useState('Approve All');
+    const [reject, setReject] = useState();
+    const [loading, setLoading] = useState(false);
+    const [declineValue, setDeclineValue] = useState();
+    const [declineName, setDeclineName] = useState();
+    const [declineType, setDeclineType] = useState();
+
+    const [rlLoading, setrlLoading] = useState();
+    const [acLoading, setacLoading] = useState();
+    const [pcLoading, setpcLoading] = useState();
+    const [gmLoading, setgmLoading] = useState();
+    const [tenthLoading, settenthLoading] = useState();
+    const [twelthLoading, settwelthLoading] = useState();
+    const [resumeLoading, setresumeLoading] = useState();
+
+
+
     const userURL = 'http://localhost:8000'
     useEffect(() => {
-        const fetchurl= async ()=>{
-            const res = await fetch(`${userURL}/documents/${user._id}`,{
+        const fetchurl = async () => {
+            const res = await fetch(`${userURL}/documents/${user._id}`, {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
                 },
             });
             const data = await res.json();
-            console.log("nvgfyfky");
-            console.log(data[0]);
             setData(data[0]);
             setDocuments(data[0].documents);
         }
         fetchurl();
-      },[]);
+    }, [rlLoading, acLoading, pcLoading, gmLoading, tenthLoading, twelthLoading, resumeLoading]);
 
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth()+1; 
+    var mm = today.getMonth() + 1;
     var yyyy = today.getFullYear();
-    if(dd<10) {dd='0'+dd;} 
-    if(mm<10) {mm='0'+mm;} 
+    if (dd < 10) { dd = '0' + dd; }
+    if (mm < 10) { mm = '0' + mm; }
     const date = [dd, mm, yyyy].join('-');
 
-    const updateStatus=async (name,type)=>{
-        console.log(name,type);
-        const res = await fetch(`http://localhost:8000/approveorreject/document/${user._id}/${name}/${type}`,{
-                method: 'PUT',
-                headers: {
-                    accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                // body: JSON.stringify(data)
-        });
-        const notifi = {
-            type:`Doc ${type}`,
-            message:`Your ${name} document is ${type}!`,
-            date:date,
-            role:"user",
-            status:"unseen"
+    const updateStatus = async (name, type) => {
+        console.log(reject, name, type)
+        let val, notifi;
+        if (type == 'rejected') {
+            val = {
+                rejectionMessage: reject
+            }
+            notifi = {
+                type: `Doc ${type}`,
+                message: `Your ${name} document is ${type} because, ${reject}`,
+                date: date,
+                role: "user",
+                status: "unseen"
+            }
+        } else {
+            val = {
+                rejectionMessage: ''
+            }
+            notifi = {
+                type: `Doc ${type}`,
+                message: `Your ${name} document is ${type}!`,
+                date: date,
+                role: "user",
+                status: "unseen"
+            }
         }
-        console.log(notifi);
+        const res = await fetch(`http://localhost:8000/approveorreject/document/${user._id}/${name}/${type}`, {
+            method: 'PUT',
+            headers: {
+                accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(val)
+        });
 
-        const generateNotifi = await fetch(`http://localhost:8000/user/user/addnotifi/${user._id}`,{
+        const generateNotifi = await fetch(`http://localhost:8000/user/user/addnotifi/${user._id}`, {
             method: 'POST',
             headers: {
                 accept: 'application/json',
@@ -80,44 +109,76 @@ const DocumentDetails = () => {
             body: JSON.stringify(notifi)
         });
         const Notifi = await generateNotifi.json();
-        console.log(Notifi);
-        window.location.href='/documentDetails'
+        setReject('');
+        setrlLoading(false);
+        setacLoading(false);
+        setpcLoading(false);
+        setgmLoading(false);
+        settenthLoading(false);
+        settwelthLoading(false);
+        setresumeLoading(false);
+        // window.location.href = '/documentDetails'
     }
-      
-    const handleApprove=(e,value,name,type)=>{
-        // if(value=='verifyRL' || value=='cancelRL'){
-        //     updateStatus(name,type);
-        //     setDisplayRL(value);
-        // }else if(value=='verifyAC' || value=='cancelAC'){
-        //     updateStatus(name,type);
-        //     setDisplayAC(value);
-        // }else if(value=='verifyPC' || value=='cancelPC'){
-        //     updateStatus(name,type);
-        //     setDisplayPC(value);
-        // }else if(value=='verifyGM' || value=='cancelGM'){
-        //     updateStatus(name,type);
-        //     setDisplayGM(value);
-        // }else if(value=='verifySSM' || value=='cancelSSM'){
-        //     updateStatus(name,type);
-        //     setDisplaySSM(value);
-        // }else if(value=='verifySM' || value=='cancelSM'){
-        //     updateStatus(name,type);
-        //     setDisplaySM(value);
-        // }else if(value=='verifyResume' || value=='cancelResume'){
-        //     updateStatus(name,type);
-        //     setDisplayResume(value);
-        // }
-        if(type==='rejected')
-        {
+
+    const handleApprove = (e, value, name, type) => {
+        setDeclineName(name);
+        setDeclineType(type);
+        setDeclineValue(value);
+        if (type === 'rejected') {
             setShow(true);
+        } else {
+            if (value == 'verifyRL' || value == 'cancelRL') {
+                updateStatus(name, type);
+                setrlLoading(true);
+            } else if (value == 'verifyAC' || value == 'cancelAC') {
+                updateStatus(name, type);
+                setacLoading(true)
+            } else if (value == 'verifyPC' || value == 'cancelPC') {
+                updateStatus(name, type);
+                setpcLoading(true);
+            } else if (value == 'verifyGM' || value == 'cancelGM') {
+                updateStatus(name, type);
+                setgmLoading(true)
+            } else if (value == 'verifySSM' || value == 'cancelSSM') {
+                updateStatus(name, type);
+                settwelthLoading(true)
+            } else if (value == 'verifySM' || value == 'cancelSM') {
+                updateStatus(name, type);
+                settenthLoading(true)
+            } else if (value == 'verifyResume' || value == 'cancelResume') {
+                updateStatus(name, type);
+                setresumeLoading(true)
+            }
         }
     }
 
-    const approveAllDocument=async()=>{
-        const val ={
-            docStatus:'approved'
+    const handleModalSubmit = () => {
+        setShow(false);
+        if (reject && declineName && declineType && declineValue) {
+            updateStatus(declineName, declineType);
+            if (declineValue == 'verifyRL' || declineValue == 'cancelRL') {
+                setrlLoading(true);
+            } else if (declineValue == 'verifyAC' || declineValue == 'cancelAC') {
+                setacLoading(true);
+            } else if (declineValue == 'verifyPC' || declineValue == 'cancelPC') {
+                setpcLoading(true)
+            } else if (declineValue == 'verifyGM' || declineValue == 'cancelGM') {
+                setgmLoading(true)
+            } else if (declineValue == 'verifySSM' || declineValue == 'cancelSSM') {
+                settwelthLoading(true)
+            } else if (declineValue == 'verifySM' || declineValue == 'cancelSM') {
+                settenthLoading(true)
+            } else if (declineValue == 'verifyResume' || declineValue == 'cancelResume') {
+                setresumeLoading(true)
+            }
         }
-        const res = await fetch(`${userURL}/${user._id}`,{
+    }
+
+    const approveAllDocument = async () => {
+        const val = {
+            docStatus: 'approved'
+        }
+        const res = await fetch(`${userURL}/${user._id}`, {
             method: 'PUT',
             headers: {
                 accept: 'application/json',
@@ -128,15 +189,15 @@ const DocumentDetails = () => {
         const data = await res.json();
         alert("Documents Approved Successfully...");
         const notifi = {
-            type:`Doc approved`,
-            message:`Your all documents are verified!`,
-            date:date,
-            role:"user",
-            status:"unseen"
+            type: `Doc approved`,
+            message: `Your all documents are verified!`,
+            date: date,
+            role: "user",
+            status: "unseen"
         }
         console.log(notifi);
 
-        const generateNotifi = await fetch(`http://localhost:8000/user/user/addnotifi/${user._id}`,{
+        const generateNotifi = await fetch(`http://localhost:8000/user/user/addnotifi/${user._id}`, {
             method: 'POST',
             headers: {
                 accept: 'application/json',
@@ -149,233 +210,295 @@ const DocumentDetails = () => {
         setBtnValue('Approved')
     }
 
-    const fileHandler=async (name)=>{
+    const fileHandler = async (name) => {
         const doc = await fetch(`http://localhost:8000/documents/${user._id}/${name}`);
         const data = await doc.json();
-        console.log(data[0].documents,"lkjhjgygf");
+        console.log(data[0].documents, "lkjhjgygf");
         const bytes = new Uint8Array(data[0].documents.data);
         const len = bytes.byteLength;
         let binary;
         for (let i = 0; i < len; i++) {
-          binary += String.fromCharCode(bytes[i]);
+            binary += String.fromCharCode(bytes[i]);
         }
         const files = window.btoa(binary);
-        const filename= data[0].documents.fileName;
+        const filename = data[0].documents.fileName;
         const url = `data:application/pdf;base64,` + files;
         const a = document.createElement('a');
-          a.href = url;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
     }
 
     const handleClose = () => setShow(false);
 
-  return (
-    <>
-        <Sidebar />
-        <NavBar />
-        <div className='documentDetails'>
-        <div className='documentDetailsBg'>
+    return (
+        <>
+            <Sidebar />
+            <NavBar />
+            <div className='documentDetails'>
+                <div className='documentDetailsBg'>
 
-            <h3>Document details about <span>{user.name}</span> </h3>
-            <h6>{user.empId}, {user.designation}</h6>
-            { documents && <><div className='overallDocumentCard'>
-                    { 
-                        user.experience==='experienced' &&
-                        <div className='documentCard' >
-                            <div className='docVeri'> Relieving Letter</div>
-                            <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("relievingLetter")} /> </div>
-                            <div className='docButton'> 
-                            {
-                                documents.relievingLetter ? documents.relievingLetter=='uploaded' &&
-                                <>
-                                    <button className={displayRL == 'cancelRL' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyRL','relievingLetter','rejected')} > Decline </button> 
-                                    <button className={displayRL == 'verifyRL' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelRL','relievingLetter','approved')}>Approve </button>
-                                </> :'-'
-                            }
-                            {
-                                documents.relievingLetter ? documents.relievingLetter=='rejected' &&
-                                <button className={displayRL == 'cancelRL' ? 'cancelButton' : 'rejectState'}   > Declined </button> :'-'
-                            }
-                            {
-                                documents.relievingLetter ? documents.relievingLetter=='approved' &&
-                                <button className={displayRL == 'verifyRL' ? 'cancelButton' : 'approveState'} > Approved </button> :'-'
-                            }
+                    <h3>Document details about <span>{user.name}</span> </h3>
+                    <h6>{user.empId}, {user.designation}</h6>
+                    {documents && <><div className='overallDocumentCard'>
+                        {
+                            user.experience == 'experienced' &&
+                            <div className='documentCard' >
+                                <div className='docVeri'> Relieving Letter</div>
+                                <div className='pdf' onClick={() => fileHandler("relievingLetter")}> <img src="Image/pdf.png" alt="" /> Download </div>
+                                <div className='docButton'>
+                                    {
+                                        documents.relievingLetter && !rlLoading && documents.relievingLetter == 'uploaded' &&
+                                        <>
+                                            <button className={displayRL == 'cancelRL' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyRL', 'relievingLetter', 'rejected')} > Decline </button>
+                                            <button className={displayRL == 'verifyRL' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelRL', 'relievingLetter', 'approved')}>Approve </button>
+                                        </>
+                                    }
+                                    {
+                                        !documents.relievingLetter && '-'
+                                    }
+                                    {
+                                        documents.relievingLetter ? documents.relievingLetter == 'rejected' &&
+                                            <button className={displayRL == 'cancelRL' ? 'cancelButton' : 'rejectState'}   > Declined </button> : '-'
+                                    }
+                                    {
+                                        documents.relievingLetter ? documents.relievingLetter == 'approved' &&
+                                            <button className={displayRL == 'verifyRL' ? 'cancelButton' : 'approveState'} > Approved </button> : '-'
+                                    }
+                                    {
+                                        (rlLoading && declineName == 'relievingLetter') &&
+                                        <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    }
+                                </div>
                             </div>
+                        }
+                        {/* </div> */}
+
+                        <div className='documentCard'>
+                            <div className='docVeri'>Aadhar Card</div>
+                            <div className='pdf' onClick={() => fileHandler("aadharCard")}> <img src="Image/pdf.png" alt="" />Download </div>
+                            <div className='docButton'>
+                                {
+                                    documents.aadharCard && !acLoading && documents.aadharCard == 'uploaded' &&
+                                    <>
+                                        <button className={displayAC == 'cancelAC' ? 'cancelButton ' : 'rejectState'} onClick={(e) => { handleApprove(e, 'verifyAC', 'aadharCard', 'rejected') }}>
+                                            Decline
+                                        </button>
+                                        <button className={displayAC == 'verifyAC' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelAC', 'aadharCard', 'approved')}> Approve </button>
+                                    </>
+                                }
+                                {
+                                    !documents.aadharCard && '-'
+                                }
+                                {
+                                    documents.aadharCard ? documents.aadharCard == 'rejected' &&
+                                        <button className={displayAC == 'cancelAC' ? 'cancelButton ' : 'rejectState'}> Declined </button> : '-'
+                                }
+                                {
+                                    documents.aadharCard ? documents.aadharCard == 'approved' &&
+                                        <button className={displayAC == 'verifyAC' ? 'cancelButton' : 'approveState'}> Approved </button> : '-'
+                                }
+                                {
+                                    (acLoading && declineName == 'aadharCard') &&
+                                    <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                }
                             </div>
-                    }
-                    {/* </div> */}
-                    
-                    <div className='documentCard'>
-                        <div className='docVeri'>Aadhar Card</div>
-                        <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("aadharCard")} /> </div>
-                        <div className='docButton'> 
-                            {
-                                documents.aadharCard ? documents.aadharCard==='uploaded' &&
-                                <>   
-                                    <button className={ displayAC === 'cancelAC' ? 'cancelButton ' : 'rejectState' } onClick={(e)=>handleApprove(e,'verifyAC','aadharCard','rejected')}> Decline </button> 
-                                    <button className={ displayAC === 'verifyAC' ? 'cancelButton' : 'approveState' } onClick={(e)=>handleApprove(e,'cancelAC','aadharCard','approved')}> Approve </button>  
-                                </> :'-'
-                            }
-                            {
-                                documents.aadharCard ? documents.aadharCard==='rejected' &&
-                                <button className={ displayAC === 'cancelAC' ? 'cancelButton ' : 'rejectState' }> Declined </button> :'-'
-                            }
-                            {
-                                documents.aadharCard ? documents.aadharCard==='approved' &&
-                                <button className={ displayAC === 'verifyAC' ? 'cancelButton' : 'approveState' }> Approved </button> :'-'
-                            }
+                        </div>
+
+                        <div className='documentCard'>
+                            <div className='docVeri'>Pan Card</div>
+                            <div className='pdf' onClick={() => fileHandler("panCard")}> <img src="Image/pdf.png" alt="" /> Download</div>
+                            <div className='docButton'>
+                                {
+                                    documents.panCard && !pcLoading &&  documents.panCard == 'uploaded' &&
+                                        <>
+                                            <button className={displayPC == 'cancelPC' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyPC', 'panCard', 'rejected')}> Decline </button>
+                                            <button className={displayPC == 'verifyPC' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelPC', 'panCard', 'approved')}> Approve </button>
+                                        </>
+                                }
+                                {
+                                    !documents.panCard && '-'
+                                }
+                                {
+                                    documents.panCard ? documents.panCard == 'rejected' &&
+                                        <button className={displayPC == 'cancelPC' ? 'cancelButton' : 'rejectState'} > Declined </button> : '-'
+                                }
+                                {
+                                    documents.panCard ? documents.panCard == 'approved' &&
+                                        <button className={displayPC == 'verifyPC' ? 'cancelButton' : 'approveState'} > Approved </button> : '-'
+                                }
+                                {
+                                    (pcLoading && declineName == 'panCard') &&
+                                    <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div className='documentCard'>
+                            <div className='docVeri'> Graduation Marksheet</div>
+                            <div className='pdf' onClick={() => fileHandler("graduate")} > <img src="Image/pdf.png" alt=""/>Download </div>
+                            <div className='docButton'>
+                                {
+                                    documents.graduate && !gmLoading && documents.graduate == 'uploaded' &&
+                                        <>
+                                            <button className={displayGM == 'cancelGM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyGM', 'graduate', 'rejected')} > Decline </button>
+                                            <button className={displayGM == 'verifyGM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelGM', 'graduate', 'approved')}> Approve </button>
+                                        </> 
+                                }
+                                {
+                                    !documents.graduate && '-'
+                                }
+                                {
+                                    documents.graduate ? documents.graduate == 'rejected' &&
+                                        <button className={displayGM == 'cancelGM' ? 'cancelButton' : 'rejectState'}  > Declined </button> : '-'
+                                }
+                                {
+                                    documents.graduate ? documents.graduate == 'approved' &&
+                                        <button className={displayGM == 'verifyGM' ? 'cancelButton' : 'approveState'} > Approved </button> : '-'
+                                }
+                                {
+                                    (gmLoading && declineName == 'graduate') &&
+                                    <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div className='documentCard'>
+                            <div className='docVeri'>Senior Secondary Marksheet</div>
+                            <div className='pdf' onClick={() => fileHandler("twelth")} > <img src="Image/pdf.png" alt="" onClick={() => fileHandler("twelth")} /> Download</div>
+                            <div className='docButton'>
+                                {
+                                    documents.twelth && !twelthLoading && documents.twelth == 'uploaded' &&
+                                        <>
+                                            <button className={displaySSM == 'cancelSSM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifySSM', 'twelth', 'rejected')}> Decline </button>
+                                            <button className={displaySSM == 'verifySSM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelSSM', 'twelth', 'approved')}> Approve </button>
+                                        </> 
+                                }
+                                {
+                                    !documents.twelth && '-'
+                                }
+                                {
+                                    documents.twelth ? documents.twelth == 'rejected' &&
+                                        <button className={displaySSM == 'cancelSSM' ? 'cancelButton' : 'rejectState'}> Declined </button> : '-'
+                                }
+                                {
+                                    documents.twelth ? documents.twelth == 'approved' &&
+                                        <button className={displaySSM == 'verifySSM' ? 'cancelButton' : 'approveState'}> Approved </button> : '-'
+                                }
+                                {
+                                    (twelthLoading && declineName == 'twelth') &&
+                                    <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div className='documentCard'>
+                            <div className='docVeri'>Secondary Marksheet</div>
+                            <div className='pdf' onClick={() => fileHandler("tenth")}> <img src="Image/pdf.png" alt="" /> Download</div>
+                            <div className='docButton'>
+                                {
+                                    documents.tenth && !tenthLoading &&  documents.tenth == 'uploaded' &&
+                                        <>
+                                            <button className={displaySM == 'cancelSM' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifySM', 'tenth', 'rejected')}> Decline </button>
+                                            <button className={displaySM == 'verifySM' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelSM', 'tenth', 'approved')} > Approve </button>
+                                        </> 
+                                }
+                                {
+                                    !documents.tenth && '-'
+                                }
+                                {
+                                    documents.tenth ? documents.tenth == 'rejected' &&
+                                        <button className={displaySM == 'cancelSM' ? 'cancelButton' : 'rejectState'}> Declined </button> : '-'
+
+                                }
+                                {
+                                    documents.tenth ? documents.tenth == 'approved' &&
+                                        <button className={displaySM == 'verifySM' ? 'cancelButton' : 'approveState'}>Approved </button> : '-'
+                                }
+                                {
+                                    (tenthLoading && declineName == 'tenth') &&
+                                    <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div className='documentCard'>
+                            <div className='docVeri'>Resume</div>
+                            <div className='pdf' onClick={() => fileHandler("resume")}> <img src="Image/pdf.png" alt="" onClick={() => fileHandler("resume")} /> Download</div>
+                            <div className='docButton'>
+                                {
+                                    documents.resume && !resumeLoading && documents.resume == 'uploaded' &&
+                                        <>
+                                            <button className={displayResume == 'cancelResume' ? 'cancelButton' : 'rejectState'} onClick={(e) => handleApprove(e, 'verifyResume', 'resume', 'rejected')}> Decline </button>
+                                            <button className={displayResume == 'verifyResume' ? 'cancelButton' : 'approveState'} onClick={(e) => handleApprove(e, 'cancelResume', 'resume', 'approved')}> Approve </button>
+                                        </> 
+                                }
+                                {
+                                    !documents.resume && '-'
+                                }
+                                {
+                                    documents.resume ? documents.resume == 'rejected' &&
+                                        <button className={displayResume == 'cancelResume' ? 'cancelButton' : 'rejectState'}> Declined</button> : '-'
+                                }
+                                {
+                                    documents.resume ? documents.resume == 'approved' &&
+                                        <button className={displayResume == 'verifyResume' ? 'cancelButton' : 'approveState'}> Approved </button> : '-'
+                                }
+                                {
+                                    (resumeLoading && declineName == 'resume') &&
+                                    <div class="spinner-border" role="status" style={{ 'height': '20px', 'width': '20px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
 
-                    <div className='documentCard'>
-                        <div className='docVeri'>Pan Card</div>
-                        <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("panCard")} /> </div>
-                        <div className='docButton'> 
+                        <div className='approveAllBtn'>
                             {
-                                documents.panCard ? documents.panCard==='uploaded' &&
-                                <>   
-                                    <button className={displayPC === 'cancelPC' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyPC','panCard','rejected')}> Decline </button> 
-                                    <button className={displayPC === 'verifyPC' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelPC','panCard','approved')}> Approve </button> 
-                                </> :'-'
-                            }
-                            {
-                                documents.panCard ? documents.panCard==='rejected' &&
-                                <button className={displayPC === 'cancelPC' ? 'cancelButton' : 'rejectState'} > Declined </button> :'-'
-                            }
-                            {
-                                documents.panCard ? documents.panCard==='approved' &&
-                                <button className={displayPC === 'verifyPC' ? 'cancelButton' : 'approveState'} > Approved </button>:'-'
+                                data && data.docStatus == 'pending' ? (documents.relievingLetter == 'approved' && documents.aadharCard == 'approved' && documents.panCard == 'approved' && documents.graduate == 'approved' && documents.twelth == 'approved' && documents.tenth == 'approved' && documents.resume == 'approved') ?
+                                    <button className=' approve-btn' onClick={approveAllDocument}>{btnValue}</button> :
+                                    <button className='approve-btn-disabled' disabled>Approve all</button>
+                                    :
+                                    <button className=' approve-btn-disbaled' disabled>Approved</button>
                             }
                         </div>
-                    </div>
 
-                    <div className='documentCard'>
-                        <div className='docVeri'> Graduation Marksheet</div>
-                        <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("graduate")} /> </div>
-                        <div className='docButton'> 
-                            {
-                                documents.graduate ? documents.graduate==='uploaded' &&
-                                 <>                             
-                                    <button className={displayGM === 'cancelGM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyGM','graduate','rejected')} > Decline </button> 
-                                    <button className={displayGM === 'verifyGM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelGM','graduate','approved')}> Approve </button> 
-                                </> :'-'
-                            }
-                            {
-                                documents.graduate ? documents.graduate==='rejected' &&
-                                <button className={displayGM === 'cancelGM' ? 'cancelButton' : 'rejectState'}  > Declined </button> :'-'
-                            }
-                            {
-                                documents.graduate ? documents.graduate==='approved' &&
-                                <button className={displayGM === 'verifyGM' ? 'cancelButton' : 'approveState'} > Approved </button> :'-'
-                            }
-                        </div>
-                    </div>
-
-                    <div className='documentCard'>
-                        <div className='docVeri'>Senior Secondary Marksheet</div>
-                        <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("twelth")} /> </div>
-                        <div className='docButton'> 
-                            {
-                                documents.twelth ? documents.twelth==='uploaded' &&
-                                 <>                             
-                                    <button className={displaySSM === 'cancelSSM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifySSM','twelth','rejected')}> Decline </button> 
-                                    <button className={displaySSM === 'verifySSM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelSSM','twelth','approved')}> Approve </button>  
-                                 </> :'-'
-                            }
-                            {
-                                documents.twelth ? documents.twelth==='rejected'  &&
-                                <button className={displaySSM === 'cancelSSM' ? 'cancelButton' : 'rejectState'}> Declined </button> :'-'
-                            }
-                            {
-                                documents.twelth ? documents.twelth==='approved' &&
-                                <button className={displaySSM === 'verifySSM' ? 'cancelButton' : 'approveState'}> Approved </button> :'-'
-                            }
-                           
-                        </div>
-                    </div>
-
-                    <div className='documentCard'>
-                        <div className='docVeri'>Secondary Marksheet</div>
-                        <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("tenth")} /> </div>
-                        <div className='docButton'> 
-                            {
-                                 documents.tenth ? documents.tenth==='uploaded' &&
-                                 <>
-                                    <button className={displaySM === 'cancelSM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifySM','tenth','rejected')}> Decline </button> 
-                                    <button className={displaySM === 'verifySM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelSM','tenth','approved')} > Approve </button> 
-                                 </>:'-'
-                            }
-                            {
-                                 documents.tenth ? documents.tenth==='rejected' &&
-                                    <button className={displaySM === 'cancelSM' ? 'cancelButton' : 'rejectState'}> Declined </button> :'-'
-                                    
-                            }
-                            {
-                                documents.tenth ? documents.tenth==='approved' &&
-                                <button className={displaySM === 'verifySM' ? 'cancelButton' : 'approveState'}>Approved </button>   :'-'
-                            }
-                             
-                        </div>
-                    </div>
-
-                    <div className='documentCard'>
-                        <div className='docVeri'>Resume</div>
-                        <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("resume")} /> </div>
-                        <div className='docButton'>
-                            {
-                                documents.resume ? documents.resume==='uploaded' &&
-                                <>
-                                    <button className={displayResume === 'cancelResume' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyResume','resume','rejected')}> Decline </button> 
-                                    <button className={displayResume === 'verifyResume' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelResume','resume','approved')}> Approve </button>
-                                </> : '-'
-                            } 
-                            {
-                                documents.resume ? documents.resume==='rejected' &&
-                                <button className={displayResume === 'cancelResume' ? 'cancelButton' : 'rejectState'}> Declined</button> : '-'
-                            } 
-                            {
-                                documents.resume ? documents.resume==='approved' &&
-                                <button className={displayResume === 'verifyResume' ? 'cancelButton' : 'approveState'}> Approved </button> :'-'
-                            }  
-                        </div>
-                    </div>
+                    </>}
                 </div>
-                
-                <div className='approveAllBtn'>
-                {
-                    data.docStatus==='pending' ? (documents.relievingLetter==='approved' && documents.aadharCard==='approved' && documents.panCard==='approved' && documents.graduate==='approved' && documents.twelth==='approved' && documents.tenth==='approved' && documents.resume==='approved') ?
-                    <button className=' approve-btn' onClick={approveAllDocument}>{btnValue}</button> :
-                    <button className=' approve-btn' disabled>Approve all</button>
-                    :
-                    <button className=' approve-btn' disabled>Approved</button>
-                }
-                </div>
-                
-                </>}
 
-            
-        <Modal
-        show={show}
-        onHide={handleClose}
-        className="profile-section-overall"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Rejection Message!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="modal-body">
-           <input type="text" className="reject-input" placeholder="Enter message" value={reject} onChange={(e)=>setReject(e.target.value)}/>
-           <button className=' reject-btn'>Send</button>
-        </Modal.Body>
-        
-      </Modal>
-        </div>
-        </div>
-    </>
-  )
+                <Modal
+                    show={show}
+                    onHide={handleClose}
+                    className="profile-section-overall"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Rejection Message!</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body className="modal-body">
+                        <input type="text" className="reject-input" placeholder="Enter message" value={reject} onChange={(e) => setReject(e.target.value)} />
+                        <button className=' reject-btn' onClick={handleModalSubmit}>Send</button>
+                    </Modal.Body>
+
+                </Modal>
+            </div>
+        </>
+    )
 }
 
 export default DocumentDetails

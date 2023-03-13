@@ -73,60 +73,71 @@ const userSchema = mongoose.Schema(
                 role:{type:String},
                 status:{type:String},
                 holidayDate:{type:String},
-                id:{type:String}
+                id:{type:String},
+                rejectionMessage:{type:String}
             }
         ],
         docLastModified:{type:Date},
         leaveLastModified:{type:Date},
+        instaId:{type:String},
+        twitterId:{type:String},
+        linkedinId:{type:String},
         documents:{
             relievingLetter:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             aadharCard:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             panCard:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             graduate:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             tenth:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             twelth:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             },
             resume:{
                 data: Buffer, 
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
-                fileName:{type:String}
+                fileName:{type:String},
+                rejectionMessage:{type:String}
             }
         }
     }

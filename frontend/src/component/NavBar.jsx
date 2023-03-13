@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faLongArrowAltUp, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import Pusher from 'pusher-js'
 
-function NavBar() {
+function NavBar(props) {
   const user = JSON.parse(localStorage.getItem("EMSuser"));
   const id = user.id;
   const [showNotification, setShowNotification] = useState(false);
@@ -17,7 +17,6 @@ function NavBar() {
   const [event,setEvent] = useState(false);
   const [count,setCount] = useState();
   const [unseenUserNotifi,setUnseenUserNotifi] = useState([]);
-
   let newdate = new Date().toJSON().slice(0, 10);
   const [year, month, day] = newdate.split('-');
   const today = [day,month, year].join('-');
@@ -114,7 +113,10 @@ function NavBar() {
 
     <div className='nav'>
       <div className='userNavBar' onClick={()=>window.location.href='/home'}>
-        {user.image ? <img src={`data:image/png;base64,${user.image.data}`} alt="" /> :<img src="Image/girl.jpg" alt="" />}
+        {
+          user.role=='user' ?  <img src={`data:image/png;base64,${props.image}`} alt="" /> : 
+          <img src="/Image/girl.jpg" alt="" />
+        }
         <div>
           <p>{user.name}</p>
           <span>{user.designation}</span>

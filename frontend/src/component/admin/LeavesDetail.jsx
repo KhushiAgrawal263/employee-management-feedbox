@@ -12,10 +12,10 @@ const LeavesDetail = () => {
   const [did2, setid2] = useState();
   const [did3, setid3] = useState();
   const [did4, setid4] = useState();
-  const [isButton1Disabled, setIsButton1Disabled] = useState(false);
-  const [isButton2Disabled, setIsButton2Disabled] = useState(false);
+  const [decline, setDecline] = useState(false);
+  const [approve, setApprove] = useState(false);
+  const [reload,setReload] = useState(false);
 
-  // const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
@@ -52,14 +52,14 @@ const LeavesDetail = () => {
       setApproved(res[0].approved);
     };
     fetchLeaves();
-  }, []);
+    setReload(false);
+  }, [reload]);
 
-  const approveLeave = async ({ user: approveleavedata, date,id1,id2 }) => {
+  const approveLeave = async ({ user: approveleavedata, date, id1, id2 }) => {
+    setDecline(true)
     setLoading(true);
     setid3(id1)
     setid4(id2)
-    setIsButton2Disabled(true);
-    setIsButton1Disabled(false);
     // update user schema for approved leaves
     const delId = approveleavedata._id;
     console.log(user);
@@ -138,19 +138,16 @@ const LeavesDetail = () => {
     const Notifi = await generateNotifi.json();
     console.log(Notifi);
     setLoading(false);
+    setDecline(false);
     alert("Leave approved Successfully !!!");
     window.location.href = "/leaveDetails";
   };
-  // console.log(pendings);
 
-  const declineLeave = async ({ user: declineleavedata, date,id1,id2 }) => {
+  const declineLeave = async ({ user: declineleavedata, date, id1, id2 }) => {
+    setApprove(true);
     setLoading(true);
     setid1(id1);
     setid2(id2);
-    setIsButton1Disabled(true);
-    setIsButton2Disabled(false);
-    console.log(isButton1Disabled);
-    console.log(isButton2Disabled);
     const pcount = user.pendingLeaves - 1;
     const val = {
       pendingLeaves: pcount,
@@ -204,8 +201,9 @@ const LeavesDetail = () => {
     const Notifi = await generateNotifi.json();
     console.log(Notifi);
 
-    alert("Leave declined Successfully !!!");
     setLoading(false)
+    setApprove(false);
+    alert("Leave declined Successfully !!!");
     window.location.href = "/leaveDetails";
 
   };
@@ -259,43 +257,43 @@ const LeavesDetail = () => {
                               <td>{pending.reason}</td>
                               <td>
                                 <button
-                                className={isButton1Disabled ? "approveDisableState":"approveState"}
-                                // className="approveState"
+                                  className={approve && did1 === i && did2 === index ? "disabledState" : "approveState"}
                                   style={{
                                     textAlign: "center",
                                     width: "110px",
                                   }}
-                                  disabled={did3===i && did4===index && isButton1Disabled}
                                   onClick={() =>
-                                    approveLeave({ user: pending, date: date,id1:i,id2:index })
+                                    approveLeave({ user: pending, date: date, id1: i, id2: index })
                                   }
+                                  disabled={did1 === i && did2 === index && approve}
                                 >
                                   {
-                                    (loading && did3===i && did4===index) ?
-                                    <div class="spinner-border text-success" role="status" style={{ 'height': '15px', 'width':'15px' }} >
-                                      <span class="visually-hidden">Loading...</span>
-                                    </div> : 'Approve'
+                                    (loading && did3 === i && did4 === index) ?
+                                      <div class="spinner-border text-success" role="status" style={{ 'height': '15px', 'width': '15px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                      </div> : 'Approve'
                                   }
                                 </button>
                               </td>
                               <td>
                                 <button
-                                  className={isButton2Disabled?"rejectDisableState":"rejectState"}
+                                  className={decline && did3 === i && did4 === index ? "disabledrejectState" : "rejectState"}
+
                                   style={{
                                     textAlign: "center",
                                     width: "110px",
                                   }}
-                                  disabled={did1===i && did2===index && isButton2Disabled}
                                   onClick={() =>
-                                    declineLeave({ user: pending, date: date,id1:i,id2:index })
+                                    declineLeave({ user: pending, date: date, id1: i, id2: index })
                                   }
                                   key={i}
+                                  disabled={did3 === i && did4 === index && decline}
                                 >
                                   {
-                                    (loading && did1===i && did2===index) ?
-                                    <div class="spinner-border text-danger" role="status" style={{ 'height': '15px', 'width':'15px' }} >
-                                      <span class="visually-hidden">Loading...</span>
-                                    </div> : 'Decline'
+                                    (loading && did1 === i && did2 === index) ?
+                                      <div class="spinner-border text-danger" role="status" style={{ 'height': '15px', 'width': '15px' }} >
+                                        <span class="visually-hidden">Loading...</span>
+                                      </div> : 'Decline'
                                   }
                                 </button>
                               </td>

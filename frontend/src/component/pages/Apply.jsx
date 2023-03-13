@@ -9,7 +9,7 @@ import emailjs from "emailjs-com";
 
 const Apply = () => {
     const [date, setDate] = useState(new Date())
-    const [edited, setEdited] = useState();
+    const [edited, setEdited] = useState(false);
     const [startDate, setStartDate] =useState('');
     const [endDate, setEndDate] = useState('');
     const [leaveType,setLeaveType] = useState();
@@ -69,11 +69,11 @@ const Apply = () => {
       });
     };
     fetchData();
+    setEdited(false)
   }, [edited]);
 
   // submit for leave apply
   const handleSubmit = async (event) => {
-    setEdited(false);
     event.preventDefault();
     const [year, month, day] = startDate.split("-");
     const [Eyear, Emonth, Eday] = endDate.split("-");
@@ -116,16 +116,15 @@ const Apply = () => {
         body: JSON.stringify(val),
       });
       const data = await res.json();
-      console.log(data);
       alert(data);
 
       // get this user
       const getUser = await fetch(`http://localhost:8000/${user.id}`);
       const resu = await getUser.json();
       var newCount = resu.pendingLeaves + array.length;
-      console.log(newCount);
       const value = {
         pendingLeaves: newCount,
+        leaveLastModified:Date.now()
       };
       // update the user
       const updateuser = await fetch(`http://localhost:8000/${user.id}`, {
@@ -157,7 +156,6 @@ const Apply = () => {
         role: "admin",
         status: "unseen",
       };
-      console.log(notifi);
 
       // update all users notifications
       const generateNotifi = await fetch(
@@ -172,7 +170,6 @@ const Apply = () => {
         }
       );
       const Notifi = await generateNotifi.json();
-      console.log(Notifi);
 
       //   const form = new FormData();
       //   form.append('email','ishabam09@gmail.com');
@@ -185,7 +182,7 @@ const Apply = () => {
       //     }, (error) => {
       //         console.log(error.text);
       //     });
-      // window.location.href = "/applyLeaves";
+      window.location.href = "/applyLeaves";
       setEdited(true);
     } catch (error) {
       console.log(error);
