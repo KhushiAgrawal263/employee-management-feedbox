@@ -12,7 +12,8 @@ const LeavesDetail = () => {
   const [did2, setid2] = useState();
   const [did3, setid3] = useState();
   const [did4, setid4] = useState();
-
+  const [isButton1Disabled, setIsButton1Disabled] = useState(false);
+  const [isButton2Disabled, setIsButton2Disabled] = useState(false);
 
   // const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -57,6 +58,8 @@ const LeavesDetail = () => {
     setLoading(true);
     setid3(id1)
     setid4(id2)
+    setIsButton2Disabled(true);
+    setIsButton1Disabled(false);
     // update user schema for approved leaves
     const delId = approveleavedata._id;
     console.log(user);
@@ -144,6 +147,10 @@ const LeavesDetail = () => {
     setLoading(true);
     setid1(id1);
     setid2(id2);
+    setIsButton1Disabled(true);
+    setIsButton2Disabled(false);
+    console.log(isButton1Disabled);
+    console.log(isButton2Disabled);
     const pcount = user.pendingLeaves - 1;
     const val = {
       pendingLeaves: pcount,
@@ -200,6 +207,7 @@ const LeavesDetail = () => {
     alert("Leave declined Successfully !!!");
     setLoading(false)
     window.location.href = "/leaveDetails";
+
   };
 
   return (
@@ -250,12 +258,14 @@ const LeavesDetail = () => {
                               )}
                               <td>{pending.reason}</td>
                               <td>
-                                <div
-                                className="approveState"
+                                <button
+                                className={isButton1Disabled ? "approveDisableState":"approveState"}
+                                // className="approveState"
                                   style={{
                                     textAlign: "center",
                                     width: "110px",
                                   }}
+                                  disabled={did3===i && did4===index && isButton1Disabled}
                                   onClick={() =>
                                     approveLeave({ user: pending, date: date,id1:i,id2:index })
                                   }
@@ -266,15 +276,16 @@ const LeavesDetail = () => {
                                       <span class="visually-hidden">Loading...</span>
                                     </div> : 'Approve'
                                   }
-                                </div>
+                                </button>
                               </td>
                               <td>
-                                <div
-                                  className="rejectState"
+                                <button
+                                  className={isButton2Disabled?"rejectDisableState":"rejectState"}
                                   style={{
                                     textAlign: "center",
                                     width: "110px",
                                   }}
+                                  disabled={did1===i && did2===index && isButton2Disabled}
                                   onClick={() =>
                                     declineLeave({ user: pending, date: date,id1:i,id2:index })
                                   }
@@ -286,7 +297,7 @@ const LeavesDetail = () => {
                                       <span class="visually-hidden">Loading...</span>
                                     </div> : 'Decline'
                                   }
-                                </div>
+                                </button>
                               </td>
                             </tr>
                           </>

@@ -99,7 +99,8 @@
     font-size : 1.1rem;
     font-weight : 700;
     border : none;
-    margin-left : 380px;
+    float: right;
+    /* margin-left : 380px; */
     margin-top: 10px;
     transition: all 0.3s ease-in;
 }
@@ -194,6 +195,11 @@
     color: #00acee;
 }
 
+.after-edit{
+    display: flex; 
+    float: right;
+    gap:5px;   
+}
 @keyframes cards{
     from {left : -1000px;}
     to {left : 0px;}

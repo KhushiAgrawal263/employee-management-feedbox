@@ -184,7 +184,7 @@ const DocumentDetails = () => {
             <h6>{user.empId}, {user.designation}</h6>
             { documents && <><div className='overallDocumentCard'>
                     { 
-                        user.experience=='experienced' &&
+                        user.experience==='experienced' &&
                         <div className='documentCard' >
                             <div className='docVeri'> Relieving Letter</div>
                             <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("relievingLetter")} /> </div>
@@ -214,19 +214,19 @@ const DocumentDetails = () => {
                         <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("aadharCard")} /> </div>
                         <div className='docButton'> 
                             {
-                                documents.aadharCard ? documents.aadharCard=='uploaded' &&
+                                documents.aadharCard ? documents.aadharCard==='uploaded' &&
                                 <>   
-                                    <button className={ displayAC == 'cancelAC' ? 'cancelButton ' : 'rejectState' } onClick={(e)=>handleApprove(e,'verifyAC','aadharCard','rejected')}> Decline </button> 
-                                    <button className={ displayAC == 'verifyAC' ? 'cancelButton' : 'approveState' } onClick={(e)=>handleApprove(e,'cancelAC','aadharCard','approved')}> Approve </button>  
+                                    <button className={ displayAC === 'cancelAC' ? 'cancelButton ' : 'rejectState' } onClick={(e)=>handleApprove(e,'verifyAC','aadharCard','rejected')}> Decline </button> 
+                                    <button className={ displayAC === 'verifyAC' ? 'cancelButton' : 'approveState' } onClick={(e)=>handleApprove(e,'cancelAC','aadharCard','approved')}> Approve </button>  
                                 </> :'-'
                             }
                             {
-                                documents.aadharCard ? documents.aadharCard=='rejected' &&
-                                <button className={ displayAC == 'cancelAC' ? 'cancelButton ' : 'rejectState' }> Declined </button> :'-'
+                                documents.aadharCard ? documents.aadharCard==='rejected' &&
+                                <button className={ displayAC === 'cancelAC' ? 'cancelButton ' : 'rejectState' }> Declined </button> :'-'
                             }
                             {
-                                documents.aadharCard ? documents.aadharCard=='approved' &&
-                                <button className={ displayAC == 'verifyAC' ? 'cancelButton' : 'approveState' }> Approved </button> :'-'
+                                documents.aadharCard ? documents.aadharCard==='approved' &&
+                                <button className={ displayAC === 'verifyAC' ? 'cancelButton' : 'approveState' }> Approved </button> :'-'
                             }
                         </div>
                     </div>
@@ -236,19 +236,19 @@ const DocumentDetails = () => {
                         <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("panCard")} /> </div>
                         <div className='docButton'> 
                             {
-                                documents.panCard ? documents.panCard=='uploaded' &&
+                                documents.panCard ? documents.panCard==='uploaded' &&
                                 <>   
-                                    <button className={displayPC == 'cancelPC' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyPC','panCard','rejected')}> Decline </button> 
-                                    <button className={displayPC == 'verifyPC' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelPC','panCard','approved')}> Approve </button> 
+                                    <button className={displayPC === 'cancelPC' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyPC','panCard','rejected')}> Decline </button> 
+                                    <button className={displayPC === 'verifyPC' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelPC','panCard','approved')}> Approve </button> 
                                 </> :'-'
                             }
                             {
-                                documents.panCard ? documents.panCard=='rejected' &&
-                                <button className={displayPC == 'cancelPC' ? 'cancelButton' : 'rejectState'} > Declined </button> :'-'
+                                documents.panCard ? documents.panCard==='rejected' &&
+                                <button className={displayPC === 'cancelPC' ? 'cancelButton' : 'rejectState'} > Declined </button> :'-'
                             }
                             {
-                                documents.panCard ? documents.panCard=='approved' &&
-                                <button className={displayPC == 'verifyPC' ? 'cancelButton' : 'approveState'} > Approved </button>:'-'
+                                documents.panCard ? documents.panCard==='approved' &&
+                                <button className={displayPC === 'verifyPC' ? 'cancelButton' : 'approveState'} > Approved </button>:'-'
                             }
                         </div>
                     </div>
@@ -258,19 +258,19 @@ const DocumentDetails = () => {
                         <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("graduate")} /> </div>
                         <div className='docButton'> 
                             {
-                                documents.graduate ? documents.graduate=='uploaded' &&
+                                documents.graduate ? documents.graduate==='uploaded' &&
                                  <>                             
-                                    <button className={displayGM == 'cancelGM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyGM','graduate','rejected')} > Decline </button> 
-                                    <button className={displayGM == 'verifyGM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelGM','graduate','approved')}> Approve </button> 
+                                    <button className={displayGM === 'cancelGM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyGM','graduate','rejected')} > Decline </button> 
+                                    <button className={displayGM === 'verifyGM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelGM','graduate','approved')}> Approve </button> 
                                 </> :'-'
                             }
                             {
-                                documents.graduate ? documents.graduate=='rejected' &&
-                                <button className={displayGM == 'cancelGM' ? 'cancelButton' : 'rejectState'}  > Declined </button> :'-'
+                                documents.graduate ? documents.graduate==='rejected' &&
+                                <button className={displayGM === 'cancelGM' ? 'cancelButton' : 'rejectState'}  > Declined </button> :'-'
                             }
                             {
-                                documents.graduate ? documents.graduate=='approved' &&
-                                <button className={displayGM == 'verifyGM' ? 'cancelButton' : 'approveState'} > Approved </button> :'-'
+                                documents.graduate ? documents.graduate==='approved' &&
+                                <button className={displayGM === 'verifyGM' ? 'cancelButton' : 'approveState'} > Approved </button> :'-'
                             }
                         </div>
                     </div>
@@ -280,19 +280,19 @@ const DocumentDetails = () => {
                         <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("twelth")} /> </div>
                         <div className='docButton'> 
                             {
-                                documents.twelth ? documents.twelth=='uploaded' &&
+                                documents.twelth ? documents.twelth==='uploaded' &&
                                  <>                             
-                                    <button className={displaySSM == 'cancelSSM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifySSM','twelth','rejected')}> Decline </button> 
-                                    <button className={displaySSM == 'verifySSM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelSSM','twelth','approved')}> Approve </button>  
+                                    <button className={displaySSM === 'cancelSSM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifySSM','twelth','rejected')}> Decline </button> 
+                                    <button className={displaySSM === 'verifySSM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelSSM','twelth','approved')}> Approve </button>  
                                  </> :'-'
                             }
                             {
-                                documents.twelth ? documents.twelth=='rejected'  &&
-                                <button className={displaySSM == 'cancelSSM' ? 'cancelButton' : 'rejectState'}> Declined </button> :'-'
+                                documents.twelth ? documents.twelth==='rejected'  &&
+                                <button className={displaySSM === 'cancelSSM' ? 'cancelButton' : 'rejectState'}> Declined </button> :'-'
                             }
                             {
-                                documents.twelth ? documents.twelth=='approved' &&
-                                <button className={displaySSM == 'verifySSM' ? 'cancelButton' : 'approveState'}> Approved </button> :'-'
+                                documents.twelth ? documents.twelth==='approved' &&
+                                <button className={displaySSM === 'verifySSM' ? 'cancelButton' : 'approveState'}> Approved </button> :'-'
                             }
                            
                         </div>
@@ -303,20 +303,20 @@ const DocumentDetails = () => {
                         <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("tenth")} /> </div>
                         <div className='docButton'> 
                             {
-                                 documents.tenth ? documents.tenth=='uploaded' &&
+                                 documents.tenth ? documents.tenth==='uploaded' &&
                                  <>
-                                    <button className={displaySM == 'cancelSM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifySM','tenth','rejected')}> Decline </button> 
-                                    <button className={displaySM == 'verifySM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelSM','tenth','approved')} > Approve </button> 
+                                    <button className={displaySM === 'cancelSM' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifySM','tenth','rejected')}> Decline </button> 
+                                    <button className={displaySM === 'verifySM' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelSM','tenth','approved')} > Approve </button> 
                                  </>:'-'
                             }
                             {
-                                 documents.tenth ? documents.tenth=='rejected' &&
-                                    <button className={displaySM == 'cancelSM' ? 'cancelButton' : 'rejectState'}> Declined </button> :'-'
+                                 documents.tenth ? documents.tenth==='rejected' &&
+                                    <button className={displaySM === 'cancelSM' ? 'cancelButton' : 'rejectState'}> Declined </button> :'-'
                                     
                             }
                             {
-                                documents.tenth ? documents.tenth=='approved' &&
-                                <button className={displaySM == 'verifySM' ? 'cancelButton' : 'approveState'}>Approved </button>   :'-'
+                                documents.tenth ? documents.tenth==='approved' &&
+                                <button className={displaySM === 'verifySM' ? 'cancelButton' : 'approveState'}>Approved </button>   :'-'
                             }
                              
                         </div>
@@ -327,19 +327,19 @@ const DocumentDetails = () => {
                         <div className='pdf'> <img src="Image/pdf.png" alt="" onClick={()=>fileHandler("resume")} /> </div>
                         <div className='docButton'>
                             {
-                                documents.resume ? documents.resume=='uploaded' &&
+                                documents.resume ? documents.resume==='uploaded' &&
                                 <>
-                                    <button className={displayResume == 'cancelResume' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyResume','resume','rejected')}> Decline </button> 
-                                    <button className={displayResume == 'verifyResume' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelResume','resume','approved')}> Approve </button>
+                                    <button className={displayResume === 'cancelResume' ? 'cancelButton' : 'rejectState'} onClick={(e)=>handleApprove(e,'verifyResume','resume','rejected')}> Decline </button> 
+                                    <button className={displayResume === 'verifyResume' ? 'cancelButton' : 'approveState'} onClick={(e)=>handleApprove(e,'cancelResume','resume','approved')}> Approve </button>
                                 </> : '-'
                             } 
                             {
-                                documents.resume ? documents.resume=='rejected' &&
-                                <button className={displayResume == 'cancelResume' ? 'cancelButton' : 'rejectState'}> Declined</button> : '-'
+                                documents.resume ? documents.resume==='rejected' &&
+                                <button className={displayResume === 'cancelResume' ? 'cancelButton' : 'rejectState'}> Declined</button> : '-'
                             } 
                             {
-                                documents.resume ? documents.resume=='approved' &&
-                                <button className={displayResume == 'verifyResume' ? 'cancelButton' : 'approveState'}> Approved </button> :'-'
+                                documents.resume ? documents.resume==='approved' &&
+                                <button className={displayResume === 'verifyResume' ? 'cancelButton' : 'approveState'}> Approved </button> :'-'
                             }  
                         </div>
                     </div>
@@ -347,7 +347,7 @@ const DocumentDetails = () => {
                 
                 <div className='approveAllBtn'>
                 {
-                    data.docStatus=='pending' ? (documents.relievingLetter=='approved' && documents.aadharCard=='approved' && documents.panCard=='approved' && documents.graduate=='approved' && documents.twelth=='approved' && documents.tenth=='approved' && documents.resume=='approved') ?
+                    data.docStatus==='pending' ? (documents.relievingLetter==='approved' && documents.aadharCard==='approved' && documents.panCard==='approved' && documents.graduate==='approved' && documents.twelth==='approved' && documents.tenth==='approved' && documents.resume==='approved') ?
                     <button className=' approve-btn' onClick={approveAllDocument}>{btnValue}</button> :
                     <button className=' approve-btn' disabled>Approve all</button>
                     :
