@@ -5,6 +5,8 @@ import './EmployeeDetail.css'
 import AddTask from './AddTask';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../NavBar';
+import { IoLogoLinkedin } from "react-icons/io";
+import { AiFillTwitterSquare } from "react-icons/ai";
 
 const EmployeeDetail = () => {
   const location = useLocation()
@@ -195,6 +197,30 @@ const EmployeeDetail = () => {
                   </tbody>
                 </table>
               </div>
+
+              <div className='pDetails'>
+                <table className="table pDetailsTable">
+                  <th scope="col">Social Profiles :</th>
+
+                  <tbody>
+                    <tr>
+                      <th scope="row"><div className='scope-gap'><div><img className="insta" src="Image/insta.png" alt="" /></div><div>Instagram :</div></div> </th>
+                      <td>  {user && user.instaId ? user.instaId : '---'}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><IoLogoLinkedin className="linked" size="35" /> Linked :  </th>
+                      <td>  {user && user.linkedinId ? user.linkedinId : '---'}</td>
+                    </tr>
+                    
+                    
+                    <tr>
+                      <th scope="row"><AiFillTwitterSquare className="twit" size="35" /> Twitter : </th>
+                      <td>  {user && user.twitterId ? user.twitterId: '---'} </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
               
               {loading ? (
                     <div
@@ -218,7 +244,7 @@ const EmployeeDetail = () => {
                   <tbody>
                     <tr>
                       <th scope="row">Email id : </th>
-                      <td>{user && user.email}</td>
+                      <td>{user && user.email }</td>
                     </tr>
                     <tr>
                       <th scope="row">Date of birth : </th>
@@ -305,6 +331,28 @@ const EmployeeDetail = () => {
                       <th scope="row">Pin Code : </th>
                       <td>{user && user.bankDetails.pinCode}</td>
                     </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div className='pDetails'>
+                <table className="table pDetailsTable">
+                  <th scope="col">Social Profile :</th>
+
+                  <tbody>
+                    <tr> 
+                      <th scope="row"><div className='scope-gap'><div><img className="insta" src="Image/insta.png" alt="" /></div><div>Instagram :</div></div></th>
+                      <td> {user && user.instaId ? user.instaId : '---'}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row"><IoLogoLinkedin className="linked" size="35" /> Linked : </th>
+                      <td> {user && user.linkedinId ? user.linkedinId : '---'} </td>
+                    </tr>
+                    <tr>
+                      <th scope="row"> <AiFillTwitterSquare className="twit" size="35" /> Twitter :</th>
+                      <td> {user && user.twitterId ? user.twitterId : '---'} </td>
+                    </tr>
+                    
                   </tbody>
                 </table>
               </div>
