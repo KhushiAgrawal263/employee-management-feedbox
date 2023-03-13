@@ -66,6 +66,28 @@
     /* color : #8a1e2d */
 }
 
+.approveDisableState{
+    color: green;
+    border: 2px solid green;
+    padding: 5px;
+    opacity:0.3;
+    font-size: 1rem;
+    border-radius: 5px;
+    width: 100px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
+.rejectDisableState{
+    color: rgb(225, 78, 78);
+    border: 2px solid rgb(225, 78, 78);
+    padding: 5px;
+    opacity:0.3;
+    font-size: 1rem;
+    border-radius: 5px;
+    width: 100px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+}
 @media only screen and (max-width: 600px){
     .leaveDetails {
         margin-left : 30px;
