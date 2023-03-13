@@ -9,8 +9,10 @@ const AddTask = ({ props }) => {
   const id = props.id;
   console.log(props);
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     if (!value) return;
     const newtask = {
@@ -25,6 +27,7 @@ const AddTask = ({ props }) => {
       const res = await data.json();
       alert(JSON.stringify(res.message));
       window.location.href = "EmployeeDetails";
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -57,9 +60,24 @@ const AddTask = ({ props }) => {
             required
           />
         </Form.Group>
-        <Button variant="primary m-3" type="submit">
-          Submit
-        </Button>
+        {loading ? (
+          <div
+            class="spinner-border"
+            role="status"
+            style={{
+              height: "15px",
+              width: "15px",
+              color: "#15074e",
+              marginLeft: "70px",
+              marginTop: "15px",
+            }}
+          >
+            <button class="visually-hidden">Loading...</button>
+          </div>
+        ) : (
+          <Button variant="primary m-3" type="submit">Submit</Button>
+        )}
+        
       </Form>
     </div>
   );

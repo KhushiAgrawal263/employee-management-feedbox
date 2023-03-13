@@ -13,7 +13,7 @@ const EmployeeDetail = () => {
 
   const [user, setUser] = useState();
   const [updateButton, setUpdateButton] = useState(false);
-
+  const[loading,setLoading]=useState(false);
   const [email, setEmail] = useState(user && user.email);
   const [address, setAddress] = useState();
   const [contact, setContact] = useState();
@@ -44,6 +44,7 @@ const EmployeeDetail = () => {
   }
 
   const saveHandler = async () => {
+    setLoading(true);
     const val ={
       email:email,
       address:address,
@@ -65,6 +66,7 @@ const EmployeeDetail = () => {
     const data = await res.json();
     setUpdateButton(false);
     window.location.href='/EmployeeDetails'
+    setLoading(false);
   }
   
   return (
@@ -194,7 +196,17 @@ const EmployeeDetail = () => {
                 </table>
               </div>
               
-              <button className='btn btn-success' onClick={saveHandler}>Save</button>
+              {loading ? (
+                    <div
+                      class="spinner-border"
+                      role="status"
+                      style={{ height: "20px", width: "20px",float:"right",marginRight:"150px",marginTop:"-25px" }}
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    <button className='btn btn-success' onClick={saveHandler}>Save</button>
+                  )}
 
               </div> 
               :
