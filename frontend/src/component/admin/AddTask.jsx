@@ -7,7 +7,6 @@ import "./EmployeeDetail.css";
 const AddTask = ({ props }) => {
   const todos = props.task;
   const id = props.id;
-  console.log(props);
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -26,6 +25,8 @@ const AddTask = ({ props }) => {
       });
       const res = await data.json();
       alert(JSON.stringify(res.message));
+      setReload(true);
+
       window.location.href = "EmployeeDetails";
       setLoading(false);
     } catch (error) {

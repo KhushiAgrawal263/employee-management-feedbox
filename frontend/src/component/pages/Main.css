@@ -89,7 +89,7 @@
     background-color: #15074e;
     border: none;
 }
-.cradElemet button {
+.save-button {
     padding : 3px;
     width : 100px;
     border-radius : 5px;
@@ -104,7 +104,7 @@
     margin-top: 10px;
     transition: all 0.3s ease-in;
 }
-.cradElemet button:hover {
+.save-button:hover {
     color: #15074e;
     background-color: #f9f9fc;
     border: 2px solid #15074e;
@@ -143,7 +143,7 @@
 
 .cardDetails {
     display : flex;
-    flex-direction : row
+    flex-direction : row;
 }
 
 .cardALink{
@@ -171,11 +171,11 @@
 
 .cardA {
     display: flex;
-    gap:6px;
     font-size : 1.1rem;
 }
 
-.cardA input {
+.cardA input ,
+.cardA select{
     width: 200px;
     margin:4px;
     font-size: 1rem;
@@ -206,11 +206,27 @@
 .twit{
     color: #00acee;
 }
-
 .after-edit{
     display: flex; 
     float: right;
     gap:5px;   
+}
+
+.disable{
+    padding : 3px;
+    width : 100px;
+    border-radius : 5px;
+    color : #f9f9fc;
+    background : #15074e;
+    border: 2px solid #15074e;
+    font-size : 1.1rem;
+    font-weight : 700;
+    border : none;
+    float: right;
+    /* margin-left : 380px; */
+    margin-top: 10px;
+    transition: all 0.3s ease-in; 
+    opacity:0.3;
 }
 @keyframes cards{
     from {left : -1000px;}

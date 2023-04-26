@@ -53,7 +53,7 @@ const LeavesDetail = () => {
     };
     fetchLeaves();
     setReload(false);
-  }, [reload]);
+  }, [reload,approve,decline]);
 
   const approveLeave = async ({ user: approveleavedata, date, id1, id2 }) => {
     setDecline(true)
@@ -61,15 +61,17 @@ const LeavesDetail = () => {
     setid3(id1)
     setid4(id2)
     // update user schema for approved leaves
+    const newdata = await fetch(`http://localhost:8000/${id}`);
+    const newuser = await newdata.json();
     const delId = approveleavedata._id;
-    console.log(user);
-    const count = user.approvedLeaves + 1;
-    const pcount = user.pendingLeaves - 1;
+    console.log(user,"user");
+    const count = newuser.approvedLeaves + 1;
+    const pcount = newuser.pendingLeaves - 1;
     const val = {
       approvedLeaves: count,
       pendingLeaves: pcount,
     };
-
+    console.log(val,"count")
     // // update user database fro pending and approved leaves
     const updateuser = await fetch(`http://localhost:8000/${id}`, {
       method: "PUT",
@@ -80,6 +82,7 @@ const LeavesDetail = () => {
       body: JSON.stringify(val),
     });
     const update = await updateuser.json();
+    // console.log(update);
 
     // // move pending leave to the approved leave
     const data = {
@@ -100,9 +103,9 @@ const LeavesDetail = () => {
       body: JSON.stringify(data),
     });
     const resp = await res.json();
-    console.log(resp);
+    // console.log(resp);
 
-    //     // delete pending data from leave database
+    // delete pending data from leave database
     const delres = await fetch(
       `http://localhost:8000/leave/delete/${id}/${date.date}`,
       {
@@ -136,11 +139,13 @@ const LeavesDetail = () => {
       }
     );
     const Notifi = await generateNotifi.json();
-    console.log(Notifi);
+    // console.log(Notifi);
     setLoading(false);
     setDecline(false);
+    setid3('')
+    setid4('')
     alert("Leave approved Successfully !!!");
-    window.location.href = "/leaveDetails";
+    // window.location.href = "/leaveDetails";
   };
 
   const declineLeave = async ({ user: declineleavedata, date, id1, id2 }) => {
@@ -148,7 +153,9 @@ const LeavesDetail = () => {
     setLoading(true);
     setid1(id1);
     setid2(id2);
-    const pcount = user.pendingLeaves - 1;
+    const newdata = await fetch(`http://localhost:8000/${id}`);
+    const newuser = await newdata.json();
+    const pcount = newuser.pendingLeaves - 1;
     const val = {
       pendingLeaves: pcount,
     };
@@ -199,12 +206,14 @@ const LeavesDetail = () => {
       }
     );
     const Notifi = await generateNotifi.json();
-    console.log(Notifi);
+    // console.log(Notifi);
 
     setLoading(false)
     setApprove(false);
+    setid1('');
+    setid2('');
     alert("Leave declined Successfully !!!");
-    window.location.href = "/leaveDetails";
+    // window.location.href = "/leaveDetails";
 
   };
 
@@ -235,7 +244,7 @@ const LeavesDetail = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {pendings && pendings.length != 0 ? (
+                  {pendings && pendings.length && !(pendings.length==0 && pendings[0].dates.length==0) != 0 ? (
                     pendings.map((pending, i) => (
                       <>
                         {pending.dates.map((date, index) => (
@@ -257,7 +266,7 @@ const LeavesDetail = () => {
                               <td>{pending.reason}</td>
                               <td>
                                 <button
-                                  className={approve && did1 === i && did2 === index ? "disabledState" : "approveState"}
+                                  className={(approve || decline) ? "disabledState" : "approveState"}
                                   style={{
                                     textAlign: "center",
                                     width: "110px",
@@ -265,7 +274,7 @@ const LeavesDetail = () => {
                                   onClick={() =>
                                     approveLeave({ user: pending, date: date, id1: i, id2: index })
                                   }
-                                  disabled={did1 === i && did2 === index && approve}
+                                  disabled={approve || decline}
                                 >
                                   {
                                     (loading && did3 === i && did4 === index) ?
@@ -277,7 +286,7 @@ const LeavesDetail = () => {
                               </td>
                               <td>
                                 <button
-                                  className={decline && did3 === i && did4 === index ? "disabledrejectState" : "rejectState"}
+                                  className={(approve || decline) ? "disabledrejectState" : "rejectState"}
 
                                   style={{
                                     textAlign: "center",
@@ -287,7 +296,7 @@ const LeavesDetail = () => {
                                     declineLeave({ user: pending, date: date, id1: i, id2: index })
                                   }
                                   key={i}
-                                  disabled={did3 === i && did4 === index && decline}
+                                  disabled={decline || approve}
                                 >
                                   {
                                     (loading && did1 === i && did2 === index) ?

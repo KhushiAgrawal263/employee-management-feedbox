@@ -17,6 +17,8 @@ function NavBar(props) {
   const [event,setEvent] = useState(false);
   const [count,setCount] = useState();
   const [unseenUserNotifi,setUnseenUserNotifi] = useState([]);
+  const [userData,setUserData]=useState();
+
   let newdate = new Date().toJSON().slice(0, 10);
   const [year, month, day] = newdate.split('-');
   const today = [day,month, year].join('-');
@@ -77,10 +79,23 @@ function NavBar(props) {
       });
     }
 
+    const fetchUsers = async () => {
+      const res = await fetch(`http://localhost:8000/${user.id}`, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data);
+      setUserData(data);
+    };
+
     useEffect(()=>{
       setEvent(false);
       fetchunseennotifications();
       fetchBirthdayDates();
+      fetchUsers();
     },[event]);
   
   
@@ -114,8 +129,11 @@ function NavBar(props) {
     <div className='nav'>
       <div className='userNavBar' onClick={()=>window.location.href='/home'}>
         {
-          user.role=='user' ?  <img src={`data:image/png;base64,${props.image}`} alt="" /> : 
-          <img src="/Image/girl.jpg" alt="" />
+          user.role=='user' && props.image ? <img src={`data:image/png;base64,${props.image}`} alt="" /> 
+          : userData && userData.image && <img src={`data:image/png;base64,${userData.image.data}`} alt="" /> 
+        }
+        {
+          user.role=='admin' && <img src="/Image/girl.jpg" alt="" />
         }
         <div>
           <p>{user.name}</p>

@@ -8,24 +8,25 @@ import axios from "axios";
 import emailjs from "emailjs-com";
 
 const Apply = () => {
-    const [date, setDate] = useState(new Date())
-    const [edited, setEdited] = useState(false);
-    const [startDate, setStartDate] =useState('');
-    const [endDate, setEndDate] = useState('');
-    const [leaveType,setLeaveType] = useState();
-    const [reason,setReason] = useState();
+  const [date, setDate] = useState(new Date())
+  const [edited, setEdited] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [leaveType, setLeaveType] = useState();
+  const [reason, setReason] = useState();
+  const [loading, setLoading] = useState(false);
 
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; 
-    var yyyy = today.getFullYear();
-        if(dd<10) {dd='0'+dd;} 
-        if(mm<10) {mm='0'+mm;} 
-    const todaysDate = [dd, mm, yyyy].join('-');
-    const mindate=[yyyy,mm,dd].join('-');
-    console.log(mindate,"mindate");    
-    const [pending, setPending] = useState([]);
-    const [approved, setApproved] = useState([]);
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1;
+  var yyyy = today.getFullYear();
+  if (dd < 10) { dd = '0' + dd; }
+  if (mm < 10) { mm = '0' + mm; }
+  const todaysDate = [dd, mm, yyyy].join('-');
+  const mindate = [yyyy, mm, dd].join('-');
+  console.log(mindate, "mindate");
+  const [pending, setPending] = useState([]);
+  const [approved, setApproved] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("EMSuser"));
   const url = "http://localhost:8000/leave";
@@ -39,25 +40,24 @@ const Apply = () => {
     }
     return dates;
   }
-  
-    const range = (array,val)=>{
-        array.map((eachday)=>{
 
-            // set all pending dates in array
-            if(val=="pending"){
-                eachday.dates.forEach(date=>{
-                    var g1 = new Date(todaysDate.split('-')[2],todaysDate.split('-')[1],todaysDate.split('-')[0]);
-                    var g2 = new Date(date.date.split('-')[2],date.date.split('-')[1],date.date.split('-')[0]);
-                    console.log(g2);
-                    if(g2 > g1)
-                   {
-                       console.log(date.date,todaysDate);
-                       setPending(arr => [...new Set(arr),date.date])
-                   } 
-                })
-            }
+  const range = (array, val) => {
+    array.map((eachday) => {
+
+      // set all pending dates in array
+      if (val == "pending") {
+        eachday.dates.forEach(date => {
+          var g1 = new Date(todaysDate.split('-')[2], todaysDate.split('-')[1], todaysDate.split('-')[0]);
+          var g2 = new Date(date.date.split('-')[2], date.date.split('-')[1], date.date.split('-')[0]);
+          console.log(g2);
+          if (g2 > g1) {
+            console.log(date.date, todaysDate);
+            setPending(arr => [...new Set(arr), date.date])
+          }
         })
       }
+    })
+  }
   // Get leaves
   useEffect(() => {
     const fetchData = async () => {
@@ -74,6 +74,7 @@ const Apply = () => {
 
   // submit for leave apply
   const handleSubmit = async (event) => {
+    setLoading(true);
     event.preventDefault();
     const [year, month, day] = startDate.split("-");
     const [Eyear, Emonth, Eday] = endDate.split("-");
@@ -116,7 +117,7 @@ const Apply = () => {
         body: JSON.stringify(val),
       });
       const data = await res.json();
-      alert(data);
+      // alert(data);
 
       // get this user
       const getUser = await fetch(`http://localhost:8000/${user.id}`);
@@ -124,7 +125,7 @@ const Apply = () => {
       var newCount = resu.pendingLeaves + array.length;
       const value = {
         pendingLeaves: newCount,
-        leaveLastModified:Date.now()
+        leaveLastModified: Date.now()
       };
       // update the user
       const updateuser = await fetch(`http://localhost:8000/${user.id}`, {
@@ -182,7 +183,13 @@ const Apply = () => {
       //     }, (error) => {
       //         console.log(error.text);
       //     });
-      window.location.href = "/applyLeaves";
+      alert(data);
+      setEndDate('');
+      setStartDate('');
+      setReason('');
+      setLeaveType('');
+      setLoading(false)
+      // window.location.href = "/applyLeaves";
       setEdited(true);
     } catch (error) {
       console.log(error);
@@ -264,11 +271,10 @@ const Apply = () => {
 
                 <div className="select">
                   Leave Type :
-                  <select
-                    required
-                    name="leaveType"
-                    onChange={(e) => setLeaveType(e.target.value)}
-                  >
+                  <select required name="leaveType" onChange={(e) => setLeaveType(e.target.value)}>
+                    <option value={leaveType} selected disabled hidden>
+                      Select ---
+                    </option>
                     <option value="el"> Earned Leave</option>
                     <option value="sl">Sick Leave</option>
                     <option value="cl">Casual Leave</option>
@@ -281,7 +287,7 @@ const Apply = () => {
                   name="reason"
                   onChange={(e) => setReason(e.target.value)}
                 >
-                  Detailed Reason : <textarea required></textarea>
+                  Detailed Reason : <textarea value={reason} required></textarea>
                 </div>
               </div>
 
@@ -301,13 +307,25 @@ const Apply = () => {
               </div>
 
               <div className="leaveButton">
-                <button
+                {/* <button
                   type="submit"
                   class="btn btn-outline-primary"
                   
                 >
                   Submit
-                </button>
+                </button> */}
+                {loading ? (
+                  <div
+                    class="spinner-border"
+                    role="status"
+                    style={{ height: "15px", width: "15px", color: "#15074e", marginRight: "25px", marginTop: "15px" }}
+                  >
+                    <button class="visually-hidden">Loading...</button>
+                  </div>
+                ) : (
+                  <button class="btn btn-outline-primary">Submit</button>
+                )
+                }
               </div>
             </form>
           </div>
@@ -315,6 +333,6 @@ const Apply = () => {
       </div>
     </>
   );
-  };
+};
 
 export default Apply;
