@@ -71,7 +71,7 @@ const EmployeeAdd = () => {
   const [PinError, setPinError] = useState(false);
   const [bloodGroup, setBloodGroup] = useState();
   const [bloodGroupError, setBloodGroupError] = useState(false);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [eye, setEye] = useState(true);
   const [passwordInput, setPasswordInput] = useState("");
@@ -88,7 +88,6 @@ const EmployeeAdd = () => {
   const bloodRegex = /^(A|B|AB|O)[+-]$/;
 
   const handleABCD = (e) => {
-    console.log("kuhdciugsbcuobsol");
     console.log(e.target.name);
     const eventValue = e.target.value;
 
@@ -277,6 +276,7 @@ const EmployeeAdd = () => {
   };
 
   const submitHandler = async (e) => {
+    console.log(val);
     e.preventDefault();
     const res = await fetch("http://localhost:8000/register", {
       method: "POST",
@@ -287,7 +287,7 @@ const EmployeeAdd = () => {
       body: JSON.stringify(val),
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     // update employee ID
     const newVal = {
       empId:
@@ -325,7 +325,7 @@ const EmployeeAdd = () => {
     }
     const date = [dd, mm, yyyy].join("-");
 
-    // Generate Notifications
+    // // Generate Notifications
     const notifi = {
       type: "New employee",
       message: `Say hey! To the new employee, ${data.name}`,
@@ -333,9 +333,9 @@ const EmployeeAdd = () => {
       role: "user",
       status: "unseen",
     };
-    console.log(notifi);
+    // console.log(notifi);
 
-    // update all users notifications
+    // // update all users notifications
     const generateNotifi = await fetch(
       `http://localhost:8000/user/oneuser/addnotifi/${data._id}`,
       {
@@ -369,30 +369,26 @@ const EmployeeAdd = () => {
     setImages(e.target.files[0]);
   };
 
-  const generatePassword=()=>{
-    let c1 ='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let c2 ='abcdefghijklmnopqrstuvwxyz';
-    let c3 ='1234567890';
-    let c4 ='@#$%&*';
-    let result ='';
-    for(let i=0;i<4;i++)
-    {
-      result += c1.charAt(Math.floor(Math.random() * 4));
+  const generatePassword = () => {
+    let c1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let c2 = 'abcdefghijklmnopqrstuvwxyz';
+    let c3 = '1234567890';
+    let c4 = '@#$%&*';
+    let result = '';
+    for (let i = 0; i < 4; i++) {
+      result += c1.charAt(Math.floor(Math.random() * 26));
     }
-    for(let i=0;i<1;i++)
-    {
-      result += c4.charAt(Math.floor(Math.random() * 1));
+    for (let i = 0; i < 1; i++) {
+      result += c4.charAt(Math.floor(Math.random() * 6));
     }
-    for(let i=0;i<2;i++)
-    {
-      result += c2.charAt(Math.floor(Math.random() * 2));
+    for (let i = 0; i < 2; i++) {
+      result += c2.charAt(Math.floor(Math.random() * 26));
     }
-    for(let i=0;i<3;i++)
-    {
-      result += c3.charAt(Math.floor(Math.random() * 3));
+    for (let i = 0; i < 3; i++) {
+      result += c3.charAt(Math.floor(Math.random() * 10));
     }
-    console.log(result);
     setPassword(result);
+    setVal({ ...val, password: result });
   }
 
   return (
@@ -437,7 +433,7 @@ const EmployeeAdd = () => {
                       name="email"
                       onChange={handleChanges}
                       required
-                      autoComplete="off"
+                      autocomplete="new-password"
                     />
                     {emailError ? (
                       <span style={{ color: "red" }}>
@@ -461,7 +457,7 @@ const EmployeeAdd = () => {
                           value={password}
                           onChange={handleChanges}
                           required
-                          autoComplete="off"
+                          autoComplete="new-password"
                         />
                       </div>
                       <div className="eyePassword" onClick={() => setEye(!eye)}>
@@ -475,7 +471,7 @@ const EmployeeAdd = () => {
                         <FontAwesomeIcon icon={faArrowsSpin} />
                       </div>
                     </div>
-                    {passError ? (
+                    {/* {passError ? (
                       <span style={{ color: "red" }}>
                         {" "}
                         *6 to 20 characters which contain at least one numeric
@@ -483,7 +479,7 @@ const EmployeeAdd = () => {
                       </span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </td>
                 </tr>
                 <tr>
@@ -539,7 +535,7 @@ const EmployeeAdd = () => {
                     {contactError ? (
                       <span style={{ color: "red" }}>
                         {" "}
-                        *conatct number should have 10 numbers
+                        *contact number should have 10 digits
                       </span>
                     ) : (
                       ""
@@ -570,13 +566,13 @@ const EmployeeAdd = () => {
                 <tr>
                   <th scope="row">Gender : </th>
                   <td>
-                    {" "}
                     <select name="gender" onChange={handleChanges} required>
                       <option value="none" selected disabled hidden>
                         Select ---
                       </option>
                       <option value="female">Female</option>
                       <option value="male">Male</option>
+                      <option value="Prefer not to say">Prefer not to say</option>
                     </select>
                   </td>
                 </tr>
@@ -603,12 +599,25 @@ const EmployeeAdd = () => {
                   <th scope="row">Blood Group : </th>
                   <td>
                     {" "}
-                    <input
+                    {/* <input
                       type="text"
                       name="bloodGroup"
                       onChange={handleChanges}
                       required
-                    />
+                    /> */}
+                    <select name="bloodGroup" onChange={handleChanges} required>
+                      <option value="none" selected disabled hidden>
+                        Select ---
+                      </option>
+                      <option value="A+">A+</option>
+                      <option value="A-">A-</option>
+                      <option value="AB+">AB+</option>
+                      <option value="AB-">AB-</option>
+                      <option value="B+">B+</option>
+                      <option value="B-">B-</option>
+                      <option value="O+">O+</option>
+                      <option value="O-">O-</option>
+                    </select>
                     {bloodGroup ? (
                       <span style={{ color: "red" }}>
                         {" "}
@@ -863,6 +872,7 @@ const EmployeeAdd = () => {
                 id="img"
                 onChange={imageHandler}
                 className="photoInput"
+                accept="image/*"
                 required
               />
               <label style={{ margin: "10px" }} htmlFor="">

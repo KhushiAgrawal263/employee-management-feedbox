@@ -161,7 +161,7 @@ const Document = () => {
                       }
                       {
                         status && status.relievingLetter && status.relievingLetter === 'uploaded' &&
-                        <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
+                        <td> <div className='status' style={{ 'color': 'blue' }}>Uploaded</div> </td>
                       }
                       {
                         status.relievingLetter && status.relievingLetter === 'failed' &&
@@ -193,7 +193,7 @@ const Document = () => {
                     }
                     {
                       status.aadharCard && status.aadharCard === 'uploaded' &&
-                      <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
+                      <td> <div className='status' style={{ 'color': 'blue' }}>Uploaded</div> </td>
                     }
                     {
                       status.aadharCard && status.aadharCard === 'rejected' &&
@@ -224,7 +224,7 @@ const Document = () => {
                     }
                     {
                       status.panCard && status.panCard === 'uploaded' &&
-                      <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
+                      <td> <div className='status' style={{ 'color': 'blue' }}>Uploaded</div> </td>
                     }
                     {
                       status.panCard && status.panCard === 'failed' &&
@@ -256,7 +256,7 @@ const Document = () => {
                     }
                     {
                       status.graduate && status.graduate === 'uploaded' &&
-                      <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
+                      <td> <div className='status' style={{ 'color': 'blue' }}>Uploaded</div> </td>
                     }
                     {
                       status.graduate && status.graduate === 'rejected' &&
@@ -288,7 +288,7 @@ const Document = () => {
                     }
                     {
                       status.twelth && status.twelth === 'uploaded' &&
-                      <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
+                      <td> <div className='status' style={{ 'color': 'blue' }}>Uploaded</div> </td>
                     }
                     {
                       status.twelth && status.twelth === 'failed' &&
@@ -320,7 +320,7 @@ const Document = () => {
                     }
                     {
                       status.tenth && status.tenth === 'uploaded' &&
-                      <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
+                      <td> <div className='status' style={{ 'color': 'blue' }}>Uploaded</div> </td>
                     }
                     {
                       status.tenth && status.tenth === 'failed' &&
@@ -352,7 +352,7 @@ const Document = () => {
                     }
                     {
                       status.resume && status.resume === 'uploaded' &&
-                      <td> <div className='status' style={{ 'color': 'green' }}>Uploaded</div> </td>
+                      <td> <div className='status' style={{ 'color': 'blue' }}>Uploaded</div> </td>
                     }
                     {
                       status.resume && status.resume === 'failed' &&

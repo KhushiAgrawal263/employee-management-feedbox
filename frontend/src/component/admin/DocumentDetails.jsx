@@ -100,6 +100,15 @@ const DocumentDetails = () => {
             body: JSON.stringify(val)
         });
 
+        setReject('');
+        setrlLoading(false);
+        setacLoading(false);
+        setpcLoading(false);
+        setgmLoading(false);
+        settenthLoading(false);
+        settwelthLoading(false);
+        setresumeLoading(false);
+
         const generateNotifi = await fetch(`http://localhost:8000/user/user/addnotifi/${user._id}`, {
             method: 'POST',
             headers: {
@@ -109,14 +118,6 @@ const DocumentDetails = () => {
             body: JSON.stringify(notifi)
         });
         const Notifi = await generateNotifi.json();
-        setReject('');
-        setrlLoading(false);
-        setacLoading(false);
-        setpcLoading(false);
-        setgmLoading(false);
-        settenthLoading(false);
-        settwelthLoading(false);
-        setresumeLoading(false);
         // window.location.href = '/documentDetails'
     }
 

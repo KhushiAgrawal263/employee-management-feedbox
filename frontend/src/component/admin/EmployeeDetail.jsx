@@ -5,6 +5,8 @@ import './EmployeeDetail.css'
 import AddTask from './AddTask';
 import { useLocation } from 'react-router-dom';
 import NavBar from '../NavBar';
+import { IoLogoLinkedin } from "react-icons/io";
+import { AiFillTwitterSquare } from "react-icons/ai";
 
 const EmployeeDetail = () => {
   const location = useLocation()
@@ -198,6 +200,30 @@ const EmployeeDetail = () => {
                     </table>
                   </div>
 
+                  <div className='pDetails'>
+                    <table className="table pDetailsTable">
+                      <th scope="col">Social Profiles :</th>
+
+                      <tbody>
+                        <tr>
+                          <th scope="row"><div className='scope-gap'><div><img className="insta" src="Image/insta.png" alt="" /></div><div>Instagram :</div></div> </th>
+                          <td>  {user && user.instaId ? user.instaId : '---'}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"><IoLogoLinkedin className="linked" size="35" /> Linked :  </th>
+                          <td>  {user && user.linkedinId ? user.linkedinId : '---'}</td>
+                        </tr>
+
+
+                        <tr>
+                          <th scope="row"><AiFillTwitterSquare className="twit" size="35" /> Twitter : </th>
+                          <td>  {user && user.twitterId ? user.twitterId : '---'} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+
                   {loading ? (
                     <div
                       class="spinner-border"
@@ -210,6 +236,7 @@ const EmployeeDetail = () => {
                     <button className='save-btn' onClick={saveHandler}>Save</button>
                   )}
                 </div >
+
                 :
                 <div>
                   <div className='pDetails'>
@@ -310,14 +337,36 @@ const EmployeeDetail = () => {
                     </table>
                   </div>
 
+                  <div className='pDetails'>
+                    <table className="table pDetailsTable">
+                      <th scope="col">Social Profile :</th>
+
+                      <tbody>
+                        <tr>
+                          <th scope="row"><div className='scope-gap'><div><img className="insta" src="Image/insta.png" alt="" /></div><div>Instagram :</div></div></th>
+                          <td> {user && user.instaId ? <a href={user && user.instaId} className="cardALink" target="_blank">{user && user.instaId}</a> : '---'}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row"><IoLogoLinkedin className="linked" size="35" /> Linked : </th>
+                          <td> {user && user.linkedinId ? <a href={user && user.linkedinId} className="cardALink" target="_blank">{user && user.linkedinId}</a> : '---'} </td>
+                        </tr>
+                        <tr>
+                          <th scope="row"> <AiFillTwitterSquare className="twit" size="35" /> Twitter :</th>
+                          <td> {user && user.twitterId ? <a href={user && user.twitterId} className="cardALink" target="_blank">{user && user.twitterId}</a> : '---'} </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+
                   {/* <div className='pDetails'>
-                    {user ? <AddTask props={{ task: user.taskCompleted, id: user._id }} /> : <p>Loading...</p>}
-                  </div> */}
+              {user ? <AddTask props={ {task:user.taskCompleted,id:user._id}} /> : <p>Loading...</p>}
+              </div> */}
                 </div>
             }
-          </div >
-        </div >
-      </div >
+          </div>
+        </div>
+      </div>
     </>
   )
 }

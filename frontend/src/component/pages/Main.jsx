@@ -63,7 +63,7 @@ const Main = () => {
       setEdited(false);
     };
     fetchurl();
-  }, [userURL, edit, edited, loading,loading2,loading3]);
+  }, [userURL, edit, edited, loading, loading2, loading3]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -226,7 +226,7 @@ const Main = () => {
                 />
               </form>
               {data &&
-              (data.docStatus == "none" || data.docStatus == "pending") ? (
+                (data.docStatus == "none" || data.docStatus == "pending") ? (
                 <span
                   title="Please submit your all documents to complete onboarding"
                   className="onboarding"
@@ -291,7 +291,7 @@ const Main = () => {
                         <div className="cardA">
                           <input
                             type="number"
-                            value={contact}
+                            // value={contact}
                             onChange={contactHandler}
                             placeholder={data.contactNo}
                           />
@@ -302,7 +302,7 @@ const Main = () => {
                         <div className="cardA">
                           <input
                             type="number"
-                            value={aadhar}
+                            // value={aadhar}
                             onChange={aadharHandler}
                             placeholder={data.aadharNo}
                           />
@@ -311,51 +311,79 @@ const Main = () => {
                       <div className="cardDetails">
                         <div className="cardQ">Gender</div>
                         <div className="cardA">
-                          <input
+                          {/* <input
                             type="text"
-                            value={gender}
+                            // value={gender}
                             onChange={genderHandler}
                             placeholder={data.gender}
-                          />
+                          /> */}
+                          <select name="gender" onChange={genderHandler} required>
+                            <option value="none" selected disabled hidden>
+                              Select ---
+                            </option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                          </select>
                         </div>
                       </div>
                       <div className="cardDetails">
                         <div className="cardQ">Marital Status</div>
                         <div className="cardA">
-                          <input
+                          {/* <input
                             type="text"
-                            value={marital}
+                            // value={marital}
                             onChange={maritalHandler}
                             placeholder={data.maritalStatus}
-                          />
+                          /> */}
+                          <select name="gender" onChange={maritalHandler} required>
+                            <option value="none" selected disabled hidden>
+                              Select ---
+                            </option>
+                            <option value="Unmarried">Unmarried</option>
+                            <option value="Married">Married</option>
+                          </select>
                         </div>
                       </div>
                       <div className="cardDetails">
                         <div className="cardQ">Blood Group</div>
                         <div className="cardA">
-                          <input
+                          {/* <input
                             type="text"
                             value={blood}
                             onChange={bloodHandler}
                             placeholder={data.bloodGroup}
-                          />
+                          /> */}
+                          <select name="gender" onChange={bloodHandler} required>
+                            <option value="none" selected disabled hidden>
+                              Select ---
+                            </option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                          </select>
                         </div>
                       </div>
                       <div className="after-edit">
-                      {loading2 ? (
-                            <div
-                              class="spinner-border"
-                              role="status"
-                              style={{ height: "15px", width: "15px",color:"#15074e",marginRight:"20px",marginTop:"16px" }}
-                            >
-                              <button class="visually-hidden">Loading...</button>
-                            </div>
-                          ) : (
-                            <button onClick={PersonalSubmitHandler}>Save</button>
-                          )
-                          }
-                    
-                        <button onClick={PersonalCancelHandler}>Cancel</button>
+                        {loading2 ? (
+                          <div
+                            class="spinner-border"
+                            role="status"
+                            style={{ height: "15px", width: "15px", color: "#15074e", marginRight: "20px", marginTop: "16px" }}
+                          >
+                            <button class="visually-hidden">Loading...</button>
+                          </div>
+                        ) : (
+                          <button onClick={PersonalSubmitHandler} className="save-button">Save</button>
+                        )
+                        }
+
+                        <button disabled={loading2} className={loading2? "disable" : "save-button"} onClick={PersonalCancelHandler}>Cancel</button>
                       </div>
                     </div>
                   ) : (
@@ -385,10 +413,8 @@ const Main = () => {
                         <div className="cardA">: {data && data.gender} </div>
                       </div>
                       <div className="cardDetails">
-                        <div className="cardQ">Marital Status</div>{" "}
-                        <div className="cardA">
-                          : {data && data.maritalStatus}{" "}
-                        </div>
+                        <div className="cardQ">Marital Status</div>
+                        <div className="cardA"> : {data && data.maritalStatus}</div>
                       </div>
                       <div className="cardDetails">
                         <div className="cardQ">Blood Group</div>{" "}
@@ -515,20 +541,20 @@ const Main = () => {
                       </div>
 
                       <div className="after-edit">
-                      {loading3 ? (
-                            <div
-                              class="spinner-border"
-                              role="status"
-                              style={{ height: "15px", width: "15px",color:"#15074e",marginRight:"25px",marginTop:"15px" }}
-                            >
-                              <button class="visually-hidden">Loading...</button>
-                            </div>
-                          ) : (
-                            <button onClick={socialSubmitHandler}>Save</button>
-                          )
-                          }
-                        
-                        <button onClick={() => setSocialEdit(false)}>
+                        {loading3 ? (
+                          <div
+                            class="spinner-border"
+                            role="status"
+                            style={{ height: "15px", width: "15px", color: "#15074e", marginRight: "25px", marginTop: "15px" }}
+                          >
+                            <button class="visually-hidden">Loading...</button>
+                          </div>
+                        ) : (
+                          <button  className="save-button" onClick={socialSubmitHandler}>Save</button>
+                        )
+                        }
+
+                        <button onClick={() => setSocialEdit(false)}  disabled={loading3} className={loading3? "disable" : "save-button"}>
                           Cancel
                         </button>
                       </div>
@@ -547,7 +573,7 @@ const Main = () => {
                           <IoLogoLinkedin className="linked" size="35" />
                         </div>{" "}
                         <div className="cardA">: <a href={data && data.linkedinId} className="cardALink" target="_blank" >  {data && data.linkedinId}</a></div>
-                        
+
                       </div>
                       <div className="cardDetails">
                         <div className="cardQA">
@@ -566,7 +592,7 @@ const Main = () => {
                           ) : (
                             <div>{data && data.twitterId}</div>
                           )}  */}
-                       {/* </div> */}
+                        {/* </div> */}
                       </div>
                     </div>
                   )}

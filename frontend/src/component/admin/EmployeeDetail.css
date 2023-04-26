@@ -14,6 +14,11 @@
     color: #15074e;
 }
 
+.scope-gap{
+    display: flex;
+    gap:13px;
+}
+
 .pDetails{
     margin : 50px;
 }
