@@ -14,7 +14,7 @@ const AddNotification = () => {
 
   var today = new Date();
   var dd = today.getDate();
-  var mm = today.getMonth()+1; 
+  var mm = today.getMonth()+1;
   var yyyy = today.getFullYear();
   if (dd < 10) {
     dd = "0" + dd;
@@ -37,7 +37,7 @@ const AddNotification = () => {
         status: "unseen",
       };
       console.log(notifi);
-  
+
       const generateNotifi = await fetch(
         "http://localhost:8000/user/user/addnotifi",
         {

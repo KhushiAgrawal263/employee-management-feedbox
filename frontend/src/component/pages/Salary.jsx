@@ -12,7 +12,7 @@ const Salary = () => {
 
     useEffect(() => {
         const fetchurl= async ()=>{
-            const res = await fetch(userURL,{   
+            const res = await fetch(userURL,{
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
@@ -27,7 +27,7 @@ const Salary = () => {
         fetchurl();
       },[userURL]);
 
-      
+
 
   return (
     <>

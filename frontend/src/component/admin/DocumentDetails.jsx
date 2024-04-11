@@ -91,7 +91,7 @@ const DocumentDetails = () => {
                 status: "unseen"
             }
         }
-        const res = await fetch(`http://localhost:8000/approveorreject/document/${user._id}/${name}/${type}`, {
+        const res = await fetch(`${userURL}/approveorreject/document/${user._id}/${name}/${type}`, {
             method: 'PUT',
             headers: {
                 accept: 'application/json',
@@ -109,7 +109,7 @@ const DocumentDetails = () => {
         settwelthLoading(false);
         setresumeLoading(false);
 
-        const generateNotifi = await fetch(`http://localhost:8000/user/user/addnotifi/${user._id}`, {
+        const generateNotifi = await fetch(`${userURL}/user/user/addnotifi/${user._id}`, {
             method: 'POST',
             headers: {
                 accept: 'application/json',
@@ -199,7 +199,7 @@ const DocumentDetails = () => {
         }
         console.log(notifi);
 
-        const generateNotifi = await fetch(`http://localhost:8000/user/user/addnotifi/${user._id}`, {
+        const generateNotifi = await fetch(`${userURL}/user/user/addnotifi/${user._id}`, {
             method: 'POST',
             headers: {
                 accept: 'application/json',
@@ -233,7 +233,7 @@ const DocumentDetails = () => {
     }
 
     const fileHandler = async (name) => {
-        const doc = await fetch(`http://localhost:8000/documents/${user._id}/${name}`);
+        const doc = await fetch(`${userURL}/documents/${user._id}/${name}`);
         const data = await doc.json();
         console.log(data[0].documents.data);
 

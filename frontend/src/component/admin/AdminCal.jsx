@@ -2,7 +2,7 @@ import React, {useEffect, useState, useRef} from 'react'
 import Sidebar from '../Sidebar';
 import NavBar from '../NavBar';
 import './AdminCal.css'
-import Calendar from 'react-calendar'; 
+import Calendar from 'react-calendar';
 import moment from 'moment';
 import AddNotification from './AddNotification';
 
@@ -118,7 +118,7 @@ const AdminCal = () => {
             <div className='admin-cal-head'>
                 <h2>Employee's Overview!</h2>
                 {/* <div className='addHoliday' ref={wrapperRef}>
-                    <a className={notificationComp ? "buttonCal1" : "buttonCal"} 
+                    <a className={notificationComp ? "buttonCal1" : "buttonCal"}
                         onClick={() => setNotificationComp(!notificationComp)}
                     >Add Holiday</a>
                     {
@@ -127,7 +127,7 @@ const AdminCal = () => {
                 </div> */}
             </div>
             <div className="adminCal-container">
-                <Calendar onChange={handleChange} value={date} 
+                <Calendar onChange={handleChange} value={date}
                 // onClickDay={handleClick}
                 tileClassName={({ date, view }) => {
                     if(mark.find(x=>x===moment(date).format("DD-MM-YYYY"))){
@@ -152,7 +152,7 @@ const AdminCal = () => {
                                     <p>{user.empId}</p>
                                     {
                                         user.approved.map((leave)=>(
-                                            leave.date==ddmmyyyy ? leave.leaveType =='cl' ? <p>Casual Leave</p> : leave.leaveType=='fl' ? <p>Flexi leave</p> : 
+                                            leave.date==ddmmyyyy ? leave.leaveType =='cl' ? <p>Casual Leave</p> : leave.leaveType=='fl' ? <p>Flexi leave</p> :
                                             leave.leaveType =='sl' ? <p>Sick Leave</p> : <p>Earned Leave</p> :''
                                         ))
                                     }
@@ -168,19 +168,19 @@ const AdminCal = () => {
                                 <div className='calLeaveContent'>
                                     <h4>{user.name}</h4>
                                     <p>{user.empId}</p>
-                                    {user.fullDay.length==0 ? <p>HalfDay Work From Home</p> : <p>FullDay Work From Home</p>} 
+                                    {user.fullDay.length==0 ? <p>HalfDay Work From Home</p> : <p>FullDay Work From Home</p>}
                                 </div>
                             </div>
                         ))
                     }
 
-                    
+
                 </div>
             </div>
         </div>
 
         <div className='addHoliday' ref={wrapperRef}>
-                    <a className={notificationComp ? "buttonCal1" : "buttonCal"} 
+                    <a className={notificationComp ? "buttonCal1" : "buttonCal"}
                         onClick={() => setNotificationComp(!notificationComp)}
                     >Add Holiday</a>
                     {

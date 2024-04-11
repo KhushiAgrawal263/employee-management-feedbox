@@ -47,7 +47,7 @@ const EmployeeAllNotification = () => {
             documentUnique.push(leave);
         }
     })
-    
+
 
     return (
       <div className='adminAllNotification'>

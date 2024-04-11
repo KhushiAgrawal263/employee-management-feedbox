@@ -18,14 +18,14 @@ const AddTask = ({ props }) => {
       task: value,
     };
     try {
-      const data = await fetch(`http://localhost:8000/updatetask/${id}`, {
+      const data = await fetch(`/yupdatetask/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newtask),
       });
       const res = await data.json();
       alert(JSON.stringify(res.message));
-      setReload(true);
+      // setReload(true);
 
       window.location.href = "EmployeeDetails";
       setLoading(false);
@@ -78,7 +78,7 @@ const AddTask = ({ props }) => {
         ) : (
           <Button variant="primary m-3" type="submit">Submit</Button>
         )}
-        
+
       </Form>
     </div>
   );

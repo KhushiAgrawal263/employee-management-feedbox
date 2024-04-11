@@ -8,7 +8,6 @@ import Loading from '../Loading';
 
 const Wfh = () => {
     const [uniqueArr,setUniqueArr] = useState();
-    const [userData,setUserData] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const url = 'http://localhost:8000/wfh/wfh/users/allwfhusers';
@@ -34,7 +33,7 @@ const Wfh = () => {
         <NavBar/>
         <Sidebar />
         {
-            !loading ? 
+            !loading ?
         <div className='wfh'>
             <div className='wfhBg'>
         <table class="table table-striped levaeTable">
@@ -48,7 +47,7 @@ const Wfh = () => {
                 </thead>
                 <tbody>
                     {
-                        uniqueArr && 
+                        uniqueArr &&
                         uniqueArr.map((user,index)=>(
                             <tr>
                                 <th scope="row">{index+1}</th>

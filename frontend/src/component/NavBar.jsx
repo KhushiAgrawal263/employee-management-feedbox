@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import './NavBar.css'  
+import './NavBar.css'
 import Notifications from './Notifications';
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
@@ -28,7 +28,7 @@ function NavBar(props) {
     encrypted: true,
     });
     const channel = pusher.subscribe('users');
-      
+
     // channel.bind('inserted', function(data) {
     //   console.log("event trioggered");
     //   setEvent(true);
@@ -97,8 +97,8 @@ function NavBar(props) {
       fetchBirthdayDates();
       fetchUsers();
     },[event]);
-  
-  
+
+
   const handleLogout=()=>{
     localStorage.setItem("EMSuser",null);
     window.location.href = '/'
@@ -122,15 +122,15 @@ function NavBar(props) {
     })
     setUnseenUserNotifi([])
     setCount(0)
-    // window.location.href='/home'
   }
+
   return (
 
     <div className='nav'>
       <div className='userNavBar' onClick={()=>window.location.href='/home'}>
         {
-          user.role=='user' && props.image ? <img src={`data:image/png;base64,${props.image}`} alt="" /> 
-          : userData && userData.image && <img src={`data:image/png;base64,${userData.image.data}`} alt="" /> 
+          user.role=='user' && props.image ? <img src={`data:image/png;base64,${props.image}`} alt="" />
+          : userData && userData.image && <img src={`data:image/png;base64,${userData.image.data}`} alt="" />
         }
         {
           user.role=='admin' && <img src="/Image/girl.jpg" alt="" />
@@ -141,9 +141,9 @@ function NavBar(props) {
         </div>
       </div>
       <div className='navbarButton'>
-        <button  onClick={() => setShowNotification(handleShowNotification)}> 
+        <button  onClick={() => setShowNotification(handleShowNotification)}>
             {
-                msgStatus &&  
+                msgStatus &&
                 <NotificationBadge
                 className="badge"
                 count={count}
@@ -217,7 +217,7 @@ export default NavBar;
 
 // function NavBar() {
 //   const [showNotification, setShowNotification] = useState(false);
-  
+
 //   const wrapperRef = useRef(null);
 //   useOutsideAlerter(wrapperRef);
 
@@ -247,7 +247,7 @@ export default NavBar;
 //       <div className='nav'>
 //         <img src={'Image/logo.png'} alt="" />
 //         <h1 className='navText'>staffie!</h1>
-//         <div 
+//         <div
 //            onClick={() => setShowNotification(!showNotification)}
 //            className='not'
 //            ref={wrapperRef}
@@ -264,11 +264,11 @@ export default NavBar;
 //             </div>
 //         </div>
 
-//           <div className="btn-logout" onClick={handleLogout}> 
+//           <div className="btn-logout" onClick={handleLogout}>
 //             <img src="Image/logout.png" title="Logout" />
 //           </div>
 
-          
+
 //       </div>
 //     </>
 //   );

@@ -153,7 +153,7 @@ const LeavesDetail = () => {
     setLoading(true);
     setid1(id1);
     setid2(id2);
-    const newdata = await fetch(`http://localhost:8000/${id}`);
+    const newdata = await fetch(`/${id}`);
     const newuser = await newdata.json();
     const pcount = newuser.pendingLeaves - 1;
     const val = {

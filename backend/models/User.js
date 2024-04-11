@@ -8,9 +8,9 @@ const userSchema = mongoose.Schema(
         password: { type: String },
         role: {type: String, enum: ['admin','user'], required: true },
         designation: {type: String},
-        image: { 
-            data: Buffer, 
-            contentType: String, 
+        image: {
+            data: Buffer,
+            contentType: String,
         },
         dob:{type: String},
         gender:{type:String},
@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema(
         joiningDate: { type:String },
         bond: { type:String },
         unique:{type:Number},
-        registrationNo :{ 
+        registrationNo :{
             type: String ,
             default: function() {
                 const max=20000;
@@ -31,7 +31,7 @@ const userSchema = mongoose.Schema(
                 return n;
               }
         },
-        empId: { 
+        empId: {
             type:String ,
             default: function() {
                 if(this.unique<1)
@@ -54,7 +54,7 @@ const userSchema = mongoose.Schema(
             ctc:{type:Number},
             basic:{type:Number},
             hra:{type:Number},
-            travel:{type:Number},           
+            travel:{type:Number},
             Basic:{type:Number},
             special:{type:Number},
             pf:{type:Number},
@@ -84,7 +84,7 @@ const userSchema = mongoose.Schema(
         linkedinId:{type:String},
         documents:{
             relievingLetter:{
-                data: Buffer, 
+                data: Buffer,
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
@@ -92,7 +92,7 @@ const userSchema = mongoose.Schema(
                 rejectionMessage:{type:String}
             },
             aadharCard:{
-                data: Buffer, 
+                data: Buffer,
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
@@ -100,7 +100,7 @@ const userSchema = mongoose.Schema(
                 rejectionMessage:{type:String}
             },
             panCard:{
-                data: Buffer, 
+                data: Buffer,
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
@@ -108,7 +108,7 @@ const userSchema = mongoose.Schema(
                 rejectionMessage:{type:String}
             },
             graduate:{
-                data: Buffer, 
+                data: Buffer,
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
@@ -116,7 +116,7 @@ const userSchema = mongoose.Schema(
                 rejectionMessage:{type:String}
             },
             tenth:{
-                data: Buffer, 
+                data: Buffer,
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
@@ -124,7 +124,7 @@ const userSchema = mongoose.Schema(
                 rejectionMessage:{type:String}
             },
             twelth:{
-                data: Buffer, 
+                data: Buffer,
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},
@@ -132,7 +132,7 @@ const userSchema = mongoose.Schema(
                 rejectionMessage:{type:String}
             },
             resume:{
-                data: Buffer, 
+                data: Buffer,
                 contentType: String,
                 status:{type:String},
                 lastModified:{type:String},

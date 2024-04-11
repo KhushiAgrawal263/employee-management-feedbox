@@ -24,7 +24,7 @@ const AddEmployee = () => {
         };
     }
 
-    const userURL = 'http://localhost:8000/'
+    const userURL = 'http://localhost:8000'
     useEffect(() => {
         const fetchurl = async () => {
             setLoading(true);

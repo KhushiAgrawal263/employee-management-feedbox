@@ -130,11 +130,11 @@ const FullDay = ({props}) => {
         <h3>Full Day Work From Home</h3>
         <div className='timeBlock'>
             {
-                addTask9 == true || task9 ? 
+                addTask9 == true || task9 ?
                 <div className='addTask'>
                     <div className='time'>9:00 AM - 11:00 AM</div>
                     <div className='Task'> {task9}</div>
-                </div> : 
+                </div> :
                 <div className='addTask'>
                     <div className='time'>9:00 AM - 11:00 AM</div>
                     <input type='text' name='first'  onChange={addTaskHandler9} />
@@ -146,11 +146,11 @@ const FullDay = ({props}) => {
 
         <div className='timeBlock'>
             {
-                addTask11 == true || task11 ? 
+                addTask11 == true || task11 ?
                 <div className='addTask'>
                     <div className='time'>11:00 AM - 1:00 PM</div>
                     <div className='Task'> {task11}</div>
-                </div> : 
+                </div> :
                 <div className='addTask'>
                     <div className='time'>11:00 AM - 1:00 PM</div>
                     <input type='text' name='second'  onChange={addTaskHandler11} required />
@@ -163,11 +163,11 @@ const FullDay = ({props}) => {
 
             <div className='timeBlock'>
             {
-                addTask1_30 == true || task1_30 ? 
+                addTask1_30 == true || task1_30 ?
                 <div className='addTask'>
                     <div className='time'>1:30 PM - 3:30 PM</div>
                     <div className='Task'> {task1_30}</div>
-                </div> : 
+                </div> :
                 <div className='addTask'>
                     <div className='time'>1:30 PM - 3:30 PM</div>
                     <input type='text' name='third'  onChange={addTaskHandler1_30} />
@@ -178,11 +178,11 @@ const FullDay = ({props}) => {
 
         <div className='timeBlock'>
             {
-                addTask3_30 == true || task3_30 ? 
+                addTask3_30 == true || task3_30 ?
                 <div className='addTask'>
                     <div className='time'>3:30 PM - 5:30 PM</div>
                     <div className='Task'> {task3_30}</div>
-                </div> : 
+                </div> :
                 <div className='addTask'>
                     <div className='time'>3:30 PM - 5:30 PM</div>
                     <input type='text' name='fourth'  onChange={addTaskHandler3_30} />

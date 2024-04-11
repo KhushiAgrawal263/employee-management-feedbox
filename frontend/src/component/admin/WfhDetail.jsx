@@ -61,12 +61,12 @@ const WfhDetail = () => {
              <div className='wfhInput'>
                 <input type="date" onChange={datehandler} />
                 {
-                    dateInfo ? 
+                    dateInfo ?
                     <>
                       {
                         data==null ? (parseInt(date.slice(6,10)) > parseInt(todayDate.slice(6,10)) && parseInt(date.slice(3,5)) > parseInt(todayDate.slice(3,5))) ?<p className='pos'>Work From Home doesn't exists for future dates...</p> : (parseInt(date.slice(0,2)) > parseInt(todayDate.slice(0,2)))  ? <p>Work From Home doesn't exists for future dates...</p>
-                        : <p className='pos'>No work from home for this day...</p> 
-                        :data && data[0].fullDay.length ==0 ? 
+                        : <p className='pos'>No work from home for this day...</p>
+                        :data && data[0].fullDay.length ==0 ?
                         <div className='wfhDiv'>
                             <h3>Half Day Work</h3>
                             <div className='workDiv'>
@@ -84,7 +84,7 @@ const WfhDetail = () => {
                                 <div className='wfhText'>{halfDayData && halfDayData[2] && halfDayData[2].third}</div>
                             </div>
                         </div>
-                        : 
+                        :
                         <div className='wfhDiv'>
                             <h3>Full Day Work</h3>
                             <div className='workDiv'>
@@ -108,9 +108,9 @@ const WfhDetail = () => {
                             </div>
                         </div>
                       }
-                        
+
                   </> : <p className='pos'>Select a date...</p>
-                }     
+                }
              </div>
         </div>
         </div>

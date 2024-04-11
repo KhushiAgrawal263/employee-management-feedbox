@@ -28,6 +28,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "node-schedule": "^2.1.1",
+    "pdfjs-dist": "^3.7.107",
     "primereact": "^8.7.3",
     "pspdfkit": "^2023.1.0",
     "pusher-js": "^8.0.1",
@@ -68,5 +69,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:8000"
 }

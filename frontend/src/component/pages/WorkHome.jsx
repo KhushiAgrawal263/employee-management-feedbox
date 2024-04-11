@@ -46,7 +46,7 @@ const WorkHome = () => {
       setTodayDate(reverse(newdate));
     }
     console.log(todayDate);
-    
+
   return (
     <>
     <NavBar/>
@@ -58,21 +58,21 @@ const WorkHome = () => {
             <input type="date" onChange={datehandler}  />
         </div>
         {
-          dateInfo ? 
+          dateInfo ?
             <>
               {
                 data==null ? parseInt(date.slice(0, 2)) > parseInt(todayDate.slice(0, 2))  ? <p>You are not allowed for this date...</p>
-                : parseInt(date.slice(0, 2)) < parseInt(todayDate.slice(0, 2)) ? <p>No work from home for this day...</p> 
-                : 
+                : parseInt(date.slice(0, 2)) < parseInt(todayDate.slice(0, 2)) ? <p>No work from home for this day...</p>
+                :
                 <>
                   <div>
-                    <button 
+                    <button
                       className={day == 'fullday' ? 'DayBtn1' : 'DayBtn'}
                       onClick={()=>setDay("fullday")}
                     >
                       Full Day
                     </button>
-                    <button 
+                    <button
                       className={day == 'halfday' ? 'DayBtn1' : 'DayBtn'}
                       onClick={()=>setDay("halfday") }
                     >
@@ -81,11 +81,11 @@ const WorkHome = () => {
                   </div>
                   {
                     day=="halfday" ? <HalfDay props={{date:date,id:id}} /> : <FullDay props={{date:date,id:id}} />
-                  }   
-                </>  
+                  }
+                </>
                 : data && data[0].fullDay.length ==0 ? <HalfDay props={{date:date,id:id}} /> : <FullDay props={{date:date,id:id}} />
               }
-                
+
           </> : <p className='pos'>Select a date...</p>
         }
     </div>

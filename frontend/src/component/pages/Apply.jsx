@@ -120,7 +120,7 @@ const Apply = () => {
       // alert(data);
 
       // get this user
-      const getUser = await fetch(`http://localhost:8000/${user.id}`);
+      const getUser = await fetch(`${url}/${user.id}`);
       const resu = await getUser.json();
       var newCount = resu.pendingLeaves + array.length;
       const value = {
@@ -128,7 +128,7 @@ const Apply = () => {
         leaveLastModified: Date.now()
       };
       // update the user
-      const updateuser = await fetch(`http://localhost:8000/${user.id}`, {
+      const updateuser = await fetch(`${url}/${user.id}`, {
         method: "PUT",
         headers: {
           accept: "application/json",
@@ -310,7 +310,7 @@ const Apply = () => {
                 {/* <button
                   type="submit"
                   class="btn btn-outline-primary"
-                  
+
                 >
                   Submit
                 </button> */}

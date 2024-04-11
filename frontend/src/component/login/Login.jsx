@@ -15,13 +15,13 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     const value = {
       email: email,
       password: password,
       role: role,
     };
-    console.log(value);
+    console.log(value,"kjnjnijn");
     const response = await fetch("http://localhost:8000/login", {
       method: "POST",
       headers: {
@@ -132,7 +132,7 @@ const Login = () => {
                 </div> : 'Submit'
               }
               </button>
-             
+
             </div>
 
           </form>

@@ -19,8 +19,13 @@ app.use(express.static('uploads'))
 app.use(express.static('uploadFile'))
 app.use(bodyParser.json());
 app.use(cors({
-    origin: '*'
+    origin:"*"
 }));
+
+app.get("/",(req,res)=>{
+    res.setHeader("Access-Control-Allow-Credentials","true");
+    res.send("Api is running...");
+})
 
 const pusher = new Pusher({
     appId: "1552037",
@@ -44,17 +49,17 @@ db.once('open', () => {
 
     // const userCollection = db.collection('users');
     //   const changeStream = userCollection.watch();
-        
+
       // changeStream.on('change', (change) => {
       //   if(change.operationType === 'update') {
       //       const task = change.fullDocument;
       //       pusher.trigger(
       //         channel,
-      //         'inserted', 
+      //         'inserted',
       //         {
       //           task: task,
       //         }
-      //       ); 
+      //       );
       //     }
       // });
 });

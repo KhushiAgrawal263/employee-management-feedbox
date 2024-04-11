@@ -63,7 +63,7 @@ router.get('/salary/:id', async (req, res) => {
     }
 })
 
-// add task 
+// add task
 router.put('/updatetask/:id', async (req, res) => {
     console.log(req.body);
     try {
@@ -101,8 +101,10 @@ router.post('/register', async (req, res) => {
 // login
 router.post('/login', async (req, res) => {
     try {
+        console.log("email");
         const email = req.body.email;
         const password = req.body.password;
+        console.log(email);
         const user = await User.aggregate([{ $match: { oEmail: email } }, { $project: { documents: 0, notifications: 0 } }]);
         !user && res.status(401).json("wrong password or username");
         if (user[0].password != password) {
@@ -219,7 +221,7 @@ router.post('/user/user/addnotifi/', async (req, res) => {
     }
 })
 
-// Add notifications to all the users expect one 
+// Add notifications to all the users expect one
 router.post('/user/oneuser/addnotifi/:id', async (req, res) => {
     try {
         const user = await User.updateMany({ _id: { $ne: req.params.id }, role: { $ne: 'admin' } }, { $push: { notifications: req.body } }, { new: true },
@@ -253,7 +255,7 @@ router.post('/admin/user/addnotifi/', async (req, res) => {
     }
 })
 
-// change the status of notification from unseen to seen 
+// change the status of notification from unseen to seen
 router.put('/user/user/updatestatus/:id/:notifiId', async (req, res) => {
     try {
         const user = await User.updateOne({ _id: req.params.id, "notifications._id": req.params.notifiId }, {

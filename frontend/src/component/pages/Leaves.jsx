@@ -22,7 +22,7 @@ const Leaves = () => {
         }
         fetchUserLeaves();
     },[])
-    
+
       const handleChange = (e) => {
         setValue(e.target.value);
         function filterfunc(leaves) {
@@ -36,7 +36,7 @@ const Leaves = () => {
             setLeaves([])
           }
       };
-    
+
   return (
     <>
     <Sidebar/>
@@ -76,7 +76,7 @@ const Leaves = () => {
 
         <div className='leavesCard'>
             {
-                value=='none' ? <p style={{fontSize:"2rem"}}>Select month to check the Leave Details...</p> : 
+                value=='none' ? <p style={{fontSize:"2rem"}}>Select month to check the Leave Details...</p> :
                 leaves && leaves.length!=0 ? leaves.map((leave,index)=>(
                     <div className='leaveCard'>
                         <div className='leaveNum'>Leave : <span className='leaveNumber'>{leaves.length - index}</span> </div>
@@ -87,7 +87,7 @@ const Leaves = () => {
                     </div>
                 )) : <p  style={{fontSize:"2rem"}}>No leaves this month...</p>
             }
-            
+
 
             {/* <div className='leaveCard'>
                 <div className='leaveNum'>Leave : <span className='leaveNumber'>2</span> </div>

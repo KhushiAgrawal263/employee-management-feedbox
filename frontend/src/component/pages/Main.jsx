@@ -35,10 +35,9 @@ const Main = () => {
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
 
-  const u = "http://localhost:8000";
   const user = JSON.parse(localStorage.getItem("EMSuser"));
   const userId = user.id;
-  const userURL = `${u}/${userId}`;
+  const userURL = `http://localhost:8000/${userId}`;
   const location = useLocation();
 
   if (user) {
